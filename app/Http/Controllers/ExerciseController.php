@@ -14,7 +14,9 @@ class ExerciseController extends Controller
      */
     public function index()
     {
+        var_dump(response());
         return Exercise::all();
+        
     }
 
     /**
@@ -35,7 +37,7 @@ class ExerciseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

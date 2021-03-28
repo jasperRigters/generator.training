@@ -20,11 +20,8 @@ class WorkoutGeneratorTest extends TestCase
      {
         $this->withoutExceptionHandling();
         $response = $this->get('/api/exercises');
-
         $response->assertOk();
-       var_dump($response);
-     
-        //$this->assertEquals($response, Exercise::first());
+
      }
 }
 

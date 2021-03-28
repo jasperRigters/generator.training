@@ -19,7 +19,7 @@
 </head>
 
 <body class="antialiased">
-    asddsa
+
 </body>
 
 </html>

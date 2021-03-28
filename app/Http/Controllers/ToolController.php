@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Exercise;
+use App\Models\Tool;
 use Illuminate\Http\Request;
 
-class ExerciseController extends Controller
+class ToolController extends Controller
 {
     public function index()
     {
-        return Exercise::all();
+        return Tool::all();
     }
+
     public function show($id)
     {
-        return Exercise::find($id);
+        return Tool::find($id);
     }
 
 }

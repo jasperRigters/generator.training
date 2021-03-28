@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\MuscleController;
+use App\Http\Controllers\ToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,6 @@ Route::get('/exercises/{id}', [ExerciseController::class, 'show']);
 
 Route::get('/muscles', [MuscleController::class, 'index']);
 Route::get('/muscles/{id}', [MuscleController::class, 'show']);
+
+Route::get('/tools', [ToolController::class, 'index']);
+Route::get('/tools/{id}', [ToolController::class, 'show']);

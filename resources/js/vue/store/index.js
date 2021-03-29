@@ -1,9 +1,10 @@
 import axios from "axios";
 export default {
     state: {
-        exercises: "bla",
-        muscles: "bla",
-        tools: "bla"
+        exercises: [],
+        muscles: [],
+        muscleGroups: [],
+        tools: []
     },
 
     getters: {},
@@ -19,6 +20,11 @@ export default {
                 commit("setMuscles", response.data);
             });
         },
+        getMuscleGroups({ commit }) {
+            axios.get("api/musclegroups").then(response => {
+                commit("setMuscleGroups", response.data);
+            });
+        },
         getTools({ commit }) {
             axios.get("api/tools").then(response => {
                 commit("setTools", response.data);
@@ -31,6 +37,9 @@ export default {
         },
         setMuscles(state, muscles) {
             state.muscles = muscles;
+        },
+        setMuscleGroups(state, muscleGroups) {
+            state.muscleGroups = muscleGroups;
         },
         setTools(state, tools) {
             state.tools = tools;

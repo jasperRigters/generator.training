@@ -13,6 +13,7 @@ class MuscleGroupController extends Controller
     }
     public function show($id)
     {
+     
         return MuscleGroup::find($id);
     }
 

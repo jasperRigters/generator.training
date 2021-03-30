@@ -1,12 +1,11 @@
 <template>
     <div>
-        {{ muscles }}
         <muscle-group-selector />
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import MuscleGroupSelector from "./components/MuscleGroupSelector.vue";
 
 export default {
@@ -17,14 +16,11 @@ export default {
         return {};
     },
 
-    computed: mapState(["exercises", "muscles", "muscleGroups", "tools"]),
-    methods: {},
-
-    mounted() {
-        this.$store.dispatch("getExercises");
-        this.$store.dispatch("getMuscles");
-        this.$store.dispatch("getMuscleGroups");
-        this.$store.dispatch("getTools");
+    created() {
+        this.$store.dispatch("data/getExercises");
+        this.$store.dispatch("data/getMuscles");
+        this.$store.dispatch("data/getMuscleGroups");
+        this.$store.dispatch("data/getTools");
     }
 };
 </script>

@@ -1,23 +1,19 @@
 <template>
-    <div class="display">
+    <div>
         <select-arrow />
-        <label
-            v-for="muscleGroup in muscleGroups"
-            :key="muscleGroup.id"
-            class="item"
-        >
+        <label v-for="muscle in muscles" :key="muscle.id" class="item">
             <input
-                :id="muscleGroup.id"
+                :id="muscle.id"
                 type="checkbox"
-                :value="muscleGroup.name"
+                :value="muscle.name"
                 @change="change"
-                checked="true"
+                :checked="isChecked(muscle.id)"
             />
-            <span :for="muscleGroup.name">{{ muscleGroup.name }}</span>
+            <span :for="muscle.name">{{ muscle.name }}</span>
         </label>
         <div>
-            selected muscle Groups:
-            {{ selectedMuscleGroups }}
+            selected muscles:
+            {{ selectedMuscles.map(muscle => muscle.name) }}
         </div>
 
         <select-arrow v-bind:mirrored="true" />
@@ -33,41 +29,31 @@ export default {
     },
     methods: {
         change(event) {
-            const muscleGroup = this.selectedMuscleGroups.filter(
-                muscleGroups => muscleGroups.id != event.target.id
+            const muscles = this.$parent.$options.methods.addOrRemoveById(
+                this.selectedMuscles,
+                this.muscles,
+                event.target.id
             );
-            if (muscleGroup.length === this.selectedMuscleGroups.length) {
-                muscleGroup.push(
-                    this.muscleGroups.find(
-                        musclegroup => musclegroup.id == event.target.id
-                    )
-                );
+
+            this.$store.commit("selections/setSelectedMuscles", muscles);
+            this.$store.dispatch("styles/changedSelection");
+        },
+        isChecked(muscle) {
+            const selectedMuscles = this.selectedMuscles.map(
+                muscle => muscle.id
+            );
+            if (selectedMuscles.find(selection => selection === muscle)) {
+                return true;
             }
-            this.$store.commit(
-                "selections/setSelectedMuscleGroups",
-                muscleGroup
-            );
         }
     },
     components: { SelectArrow },
     computed: {
         ...mapState({
-            muscleGroups: state => state.data.muscleGroups,
-            selectedMuscleGroups: state => state.selections.selectedMuscleGroups
+            selectedPreset: state => state.selections.selectedPreset,
+            muscles: state => state.data.muscles,
+            selectedMuscles: state => state.selections.selectedMuscles
         })
-    },
-    created() {
-        this.$store.commit("selections/setSelectedMuscleGroups", [
-            { id: 1, name: "Glutes" },
-            { id: 2, name: "Legs" },
-            { id: 3, name: "Calves" },
-            { id: 4, name: "Triceps" },
-            { id: 5, name: "Biceps" },
-            { id: 6, name: "Shoulders" },
-            { id: 7, name: "Core" },
-            { id: 8, name: "Back" },
-            { id: 9, name: "Chest" }
-        ]);
     }
 };
 </script>

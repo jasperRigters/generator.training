@@ -12,23 +12,48 @@ export default {
 
     actions: {
         getExercises({ commit }) {
-            axios.get("api/exercises").then(response => {
-                commit("setExercises", response.data);
+            return new Promise((resolve, reject) => {
+                axios.get("api/exercises").then(response => {
+                    commit("setExercises", response.data);
+                    resolve();
+                });
             });
         },
-        getMuscles({ commit }) {
-            axios.get("api/muscles").then(response => {
-                commit("setMuscles", response.data);
+        getMuscles({ dispatch, commit, getters, rootGetters }) {
+            return new Promise((resolve, reject) => {
+                axios.get("api/muscles").then(response => {
+                    commit("setMuscles", response.data);
+                    commit(
+                        "selections/setSelectedMuscles",
+                        rootGetters["selections/getPresetMuscles"],
+                        {
+                            root: true
+                        }
+                    );
+                    dispatch("styles/changedSelection", null, { root: true });
+                    resolve();
+                });
             });
         },
         getMuscleGroups({ commit }) {
-            axios.get("api/musclegroups").then(response => {
-                commit("setMuscleGroups", response.data);
+            return new Promise((resolve, reject) => {
+                axios.get("api/musclegroups").then(response => {
+                    commit("setMuscleGroups", response.data);
+
+                    resolve();
+                });
             });
         },
         getTools({ commit }) {
-            axios.get("api/tools").then(response => {
-                commit("setTools", response.data);
+            return new Promise((resolve, reject) => {
+                axios.get("api/tools").then(response => {
+                    commit("setTools", response.data);
+                    commit("selections/setSelectedTools", response.data, {
+                        root: true
+                    });
+
+                    resolve();
+                });
             });
         }
     },

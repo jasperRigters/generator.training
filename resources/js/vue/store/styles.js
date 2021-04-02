@@ -1,0 +1,73 @@
+export default {
+    namespaced: true,
+    state: {
+        background: { fill: "white" },
+        outline: { fill: "peachPuff" },
+        head: {},
+        other: {},
+        muscles: {
+            Trapezius: {},
+            "Latissimus Dorsi": {},
+            "Lower Back": {},
+            "Tibialis Anterior": {},
+            Forearms: {},
+            Glutes: {},
+            Hamstrings: {},
+            Quadriceps: {},
+            Gastrocnemius: {},
+            Soleus: {},
+            "Rectus Abdominis": {},
+            "Obliques Externus": {},
+            "Obliqus Internus": {},
+            "Pectoralis Major": {},
+            "Serratus Anterior": {},
+            "Biceps Brachii": {},
+            Brachialis: {},
+            "Lateral Head": {},
+            "Medial Head": {},
+            "Long Head": {},
+            "Posterior Deltoids": {},
+            "Medial Deltoids": {},
+            "Anterior Deltoids": {}
+        },
+        colors: {
+            selected: { fill: "orange" },
+            unselected: { fill: "black" }
+        }
+    },
+
+    getters: {
+        getMuscleStyles(state, getters, rootState, rootGetters) {
+            const styles = rootState.data.muscles.map(muscle => {
+                const selectedMuscleNames = rootState.selections.selectedMuscles.map(
+                    muscle => muscle.name
+                );
+                if (selectedMuscleNames.includes(muscle.name)) {
+                    return {
+                        name: muscle.name,
+                        style: rootState.styles.colors["selected"]
+                    };
+                }
+                return {
+                    name: muscle.name,
+                    style: rootState.styles.colors["unselected"]
+                };
+            });
+            console.log(styles);
+            return styles;
+        }
+    },
+    actions: {
+        changedSelection({ dispatch, commit, getters, rootGetters }) {
+            commit("setMuscleStyles", getters.getMuscleStyles);
+        }
+    },
+    mutations: {
+        setMuscleStyles(state, payload) {
+            payload.forEach(muscle => {
+                console.log(muscle);
+                state.muscles[muscle.name] = muscle.style;
+            });
+        }
+    }
+};

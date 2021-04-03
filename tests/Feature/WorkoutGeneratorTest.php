@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Exercise;
-use App\Models\ExerciseMuscle;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Muscle;
+use App\Models\Tool;
 use Tests\TestCase;
 
 class WorkoutGeneratorTest extends TestCase
@@ -14,14 +13,26 @@ class WorkoutGeneratorTest extends TestCase
      *
      * @return void
      */
-    
-     /** @test */
-     public function exercises_can_be_accessed_by_id()
-     {
+
+    /** @test */
+    public function get_request_with_muscles_and_tools_returns_workout()
+    {
         $this->withoutExceptionHandling();
-        $response = $this->get('/api/exercises');
+
+        $allMuscles = Muscle::all();
+        $muscles = [];
+        foreach ($allMuscles as $muscle) {
+            array_push($muscles, $muscle->id);
+        }
+        $allTools = Tool::all();
+
+        $tools = [];
+        foreach ($allTools as $tool) {
+            array_push($tools, $tool->id);
+        }
+
+        $response = $this->get('/api/workout', ['muscles' => $muscles, 'tools' => $tools]);
         $response->assertOk();
 
-     }
+    }
 }
-

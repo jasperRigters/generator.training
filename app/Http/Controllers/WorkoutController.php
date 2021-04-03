@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Exercise_muscle;
-use App\Models\Exercise_tool;
-use App\Models\Workout;
 use Illuminate\Http\Request;
 
 class WorkoutController extends Controller
@@ -12,55 +9,56 @@ class WorkoutController extends Controller
 
     public function generate(request $request)
     {
-        $getAvailableExercises = $this->getAvailableExercises($request->muscles, $request->tools);
+        //     $getAvailableExercises = $this->getAvailableExercises($request->muscles, $request->tools);
 
-        $generatedWorkout = new Workout();
+        //     $generatedWorkout = new Workout();
 
-        return $getAvailableExercises;
-    }
+        //     return $getAvailableExercises;
+        // }
 
-    public function getAvailableExercises($muscles, $tools)
-    {
-        $availableExercisesByMuscle = $this->getAvailableExercisesByMuscles($muscles);
-        $availableExercisesByTools = $this->getAvailableExercisesByTools($tools);
+        // public function getAvailableExercises($muscles, $tools)
+        // {
+        //     $availableExercisesByMuscle = $this->getAvailableExercisesByMuscles($muscles);
+        //     $availableExercisesByTools = $this->getAvailableExercisesByTools($tools);
 
-        $availableExercises = array_intersect($availableExercisesByMuscle, $availableExercisesByTools);
-        return $availableExercises;
-    }
+        //     $availableExercises = array_intersect($availableExercisesByMuscle, $availableExercisesByTools);
+        //     return $availableExercisesByTools;
+        // }
 
-    public function getAvailableExercisesByMuscles($muscles)
-    {
-        $availableExercises = [];
+        // public function getAvailableExercisesByMuscles($muscles)
+        // {
+        //     $availableExercises = [];
 
-        foreach ($muscles as $muscle) {
-            $exercises = Exercise_muscle::where([
-                ['muscle_id', $muscle],
-                ['prime_mover', '>=', 0],
-            ])->get();
-            foreach ($exercises as $exercise) {
-                array_push($availableExercises, $exercise->exercise_id);
-            }
+        //     // foreach ($muscles as $muscle) {
+        //     //     $exercises = Exercise_muscle::where([
+        //     //         ['muscle_id', $muscle],
+        //     //         ['prime_mover', '>=', 0],
+        //     //     ])->get();
 
-        }
-        return $availableExercises;
-    }
+        //     //     foreach ($exercises as $exercise) {
+        //     //         array_push($availableExercises, $exercise->exercise_id);
+        //     //     }
 
-    public function getAvailableExercisesByTools($tools)
-    {
-        $availableExercises = [];
+        //     // }
+        //     return $availableExercises;
+        // }
 
-        foreach ($tools as $tool) {
-            $exercises = Exercise_tool::where([
-                ['tool_id', $tool],
-                ['essential', 1],
-            ])->get();
+        // public function getAvailableExercisesByTools($tools)
+        // {
+        //     $availableExercises = [];
 
-            echo ($exercises);
-            foreach ($exercises as $exercise) {
-                array_push($availableExercises, $exercise->exercise_id);
-            }
+        //     $exercisesWithAllEssentialToolsAvailaible = $this->getExercisesWithAllEssentialToolsAvailable($tools);
 
-        }
-        return $availableExercises;
+        //     return $exercisesWithAllEssentialToolsAvailaible;
+        // }
+
+        // public function getExercisesWithAllEssentialToolsAvailable($tools)
+        // {
+        //     $exercisesWithEssentialTools = Exercise_tool::where([
+        //         ['essential', 1],
+        //     ])->get();
+
+        //     return $exercisesWithEssentialTools;
+        return 'hello';
     }
 }

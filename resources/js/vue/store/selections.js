@@ -41,6 +41,12 @@ export default {
                 }
             });
             return presetMuscles;
+        },
+        getSelectedMuscleIds(state) {
+            return state.selectedMuscles.map(muscle => muscle.id);
+        },
+        getSelectedToolIds(state) {
+            return state.selectedTools.map(tools => tools.id);
         }
     },
     actions: {},

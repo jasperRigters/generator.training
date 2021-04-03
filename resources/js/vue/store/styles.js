@@ -17,8 +17,8 @@ export default {
             Gastrocnemius: {},
             Soleus: {},
             "Rectus Abdominis": {},
-            "Obliques Externus": {},
-            "Obliqus Internus": {},
+            Obliques: {},
+            "Pelvic Floor": {},
             "Pectoralis Major": {},
             "Serratus Anterior": {},
             "Biceps Brachii": {},
@@ -53,7 +53,7 @@ export default {
                     style: rootState.styles.colors["unselected"]
                 };
             });
-            console.log(styles);
+
             return styles;
         }
     },
@@ -65,7 +65,6 @@ export default {
     mutations: {
         setMuscleStyles(state, payload) {
             payload.forEach(muscle => {
-                console.log(muscle);
                 state.muscles[muscle.name] = muscle.style;
             });
         }

@@ -283,40 +283,40 @@
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1781.02,3680.35 c -1.57,-26 -28.38,-265.37 -33.5,-287.09 -5.09,-21.75 -5.26,-82.17 6.66,-80 11.93,2.17 82.88,39.01 86.25,62.92 3.43,23.88 13.75,162.15 13.75,190.41 0,28.24 70.42,210 6.67,230 -10.24,3.21 -78.13,-88 -79.83,-116.24"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6879"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1798.9,3879.23 c 0,0 -6.52,-69.54 2.17,-78.23 8.71,-8.7 67.38,41.29 71.71,54.32 4.35,13.03 33.41,125.7 16.02,103.98 -17.37,-21.74 -31.22,-58.36 -89.9,-80.07"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6881"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1805.29,3999.14 c -2.54,-20.41 -12.76,-86.65 0,-89.2 12.73,-2.57 76.51,88.43 84.15,108.8 7.66,20.4 3.39,37.06 -4.25,31.95 -7.65,-5.09 -77.35,-31.17 -79.9,-51.55"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6883"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1798.46,4108 c -6.88,-13.83 -20.34,-82.93 10.56,-77.78 30.86,5.16 97.5,79.06 93.77,102.5 -4.3,26.9 -99.16,-14.44 -104.33,-24.72"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6885"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1764.61,4190.13 c -13.57,-13.35 11.98,-61.26 27.43,-56.67 13.68,4.06 117.02,61.13 110.13,88.69 -5.93,23.69 -134.5,-29.02 -137.56,-32.02"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6887"
@@ -331,16 +331,16 @@
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="other"
-                        :style="other"
+                        class="pelvicFloor"
+                        :style="pelvicFloor"
                         d="m 1542.08,3088.82 c -7.99,-16.53 -5.96,-241.28 21.25,-301.75 27.15,-60.5 30.99,34.67 34.75,57.06 3.76,22.34 35.72,59.27 21.18,85.47 -14.54,26.18 -75.2,163.31 -77.18,159.22"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6891"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="other"
-                        :style="other"
+                        class="pelvicFloor"
+                        :style="pelvicFloor"
                         d="m 1665.5,3186.83 c -12.2,-12.58 -91.76,-80.36 -90.18,-91.95 2.42,-17.37 49.58,-131.9 67.11,-142.54 17.51,-10.63 14.12,66.98 30.71,109.57 17.74,45.5 137.78,218.51 137.71,224.68 -0.05,4.72 -98.05,-51.07 -145.35,-99.76"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6893"
@@ -643,40 +643,40 @@
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1253.3,3680.35 c 1.57,-26 28.38,-265.37 33.5,-287.09 5.09,-21.75 5.27,-82.17 -6.66,-80 -11.93,2.17 -82.87,39.01 -86.25,62.92 -3.43,23.88 -13.75,162.15 -13.75,190.41 0,28.24 -70.42,210 -6.67,230 10.24,3.21 78.13,-88 79.83,-116.24"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6969"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1235.42,3879.23 c 0,0 6.52,-69.54 -2.17,-78.23 -8.7,-8.7 -67.38,41.29 -71.71,54.32 -4.35,13.03 -33.41,125.7 -16.02,103.98 17.37,-21.74 31.22,-58.36 89.9,-80.07"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6971"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1229.03,3999.14 c 2.54,-20.41 12.76,-86.65 0,-89.2 -12.73,-2.57 -76.51,88.43 -84.15,108.8 -7.66,20.4 -3.39,37.06 4.26,31.95 7.64,-5.09 77.34,-31.17 79.89,-51.55"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6973"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1235.86,4108 c 6.88,-13.83 20.35,-82.93 -10.56,-77.78 -30.86,5.16 -97.5,79.06 -93.77,102.5 4.3,26.9 99.16,-14.44 104.33,-24.72"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6975"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="obliquesExturnus"
-                        :style="obliquesExturnus"
+                        class="obliques"
+                        :style="obliques"
                         d="m 1269.71,4190.13 c 13.58,-13.35 -11.98,-61.26 -27.42,-56.67 -13.69,4.06 -117.03,61.13 -110.14,88.69 5.94,23.69 134.51,-29.02 137.56,-32.02"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6977"
@@ -691,16 +691,16 @@
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="other"
-                        :style="other"
+                        class="pelvicFloor"
+                        :style="pelvicFloor"
                         d="m 1492.24,3088.82 c 7.99,-16.53 5.96,-241.28 -21.24,-301.75 -27.16,-60.5 -31,34.67 -34.75,57.06 -3.76,22.34 -35.73,59.27 -21.19,85.47 14.54,26.18 75.2,163.31 77.18,159.22"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6981"
                         inkscape:connector-curvature="0"
                     />
                     <path
-                        class="other"
-                        :style="other"
+                        class="pelvicFloor"
+                        :style="pelvicFloor"
                         d="m 1368.82,3186.83 c 12.2,-12.58 91.77,-80.36 90.18,-91.95 -2.42,-17.37 -49.58,-131.9 -67.11,-142.54 -17.51,-10.63 -14.12,66.98 -30.71,109.57 -17.74,45.5 -137.78,218.51 -137.71,224.68 0.06,4.72 98.05,-51.07 145.35,-99.76"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path6983"
@@ -1238,7 +1238,7 @@
                     />
                     <path
                         class="gastrocnemius"
-                        :style="gastrocnemius"
+                        :style="soleus"
                         d="m 4132.72,1366.29 c -15.59,0 -21.05,5.18 -27.23,-29.02 -23.2,-128.4 101.51,-197.67 109.67,-612.008 0.67,-34.75 23.54,-30.699 23.18,-20.25 -7.55,227.258 -34.31,401.658 -51.15,463.368 -10.9,39.97 -31.31,197.91 -54.47,197.91"
                         style="fill-opacity:1;fill-rule:nonzero;stroke:none"
                         id="path7121"
@@ -1380,9 +1380,8 @@ export default {
             gastrocnemius: state => state.styles.muscles["Gastrocnemius"],
             soleus: state => state.styles.muscles["Soleus"],
             rectusAbdominis: state => state.styles.muscles["Rectus Abdominis"],
-            obliquesExturnus: state =>
-                state.styles.muscles["Obliques Externus"],
-            obliqusInternus: state => state.styles.muscles["Obliqus Internus"],
+            obliques: state => state.styles.muscles["Obliques"],
+            pelvicFloor: state => state.styles.muscles["Pelvic Floor"],
             pectoralisMajor: state => state.styles.muscles["Pectoralis Major"],
             serratusAnterior: state =>
                 state.styles.muscles["Serratus Anterior"],
@@ -1402,7 +1401,7 @@ export default {
 
 <style scoped>
 * {
-    fill: black;
+    fill: green;
 }
 
 .heavyIntensity {

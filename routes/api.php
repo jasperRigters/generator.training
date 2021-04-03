@@ -6,6 +6,7 @@ use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\MuscleController;
 use App\Http\Controllers\MuscleGroupController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\WorkoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,6 @@ Route::get('/tools/{id}', [ToolController::class, 'show']);
 
 Route::get('/musclegroups', [MuscleGroupController::class, 'index']);
 Route::get('/musclegroups/{id}', [MuscleGroupController::class, 'show']);
+
+
+ Route::get('/workout', [WorkoutController::class, 'generate']);

@@ -26,12 +26,7 @@ class WorkoutGeneratorTest extends TestCase
         }
         $allTools = Tool::all();
 
-        $tools = [];
-        foreach ($allTools as $tool) {
-            array_push($tools, $tool->id);
-        }
-
-        $response = $this->get('/api/workout', ['muscles' => $muscles, 'tools' => $tools]);
+        $response = $this->get('/api/workout', ['muscles' => $muscles, 'tools' => $muscles]);
         $response->assertOk();
 
     }

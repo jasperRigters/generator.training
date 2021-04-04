@@ -1,10 +1,10 @@
 export default {
     namespaced: true,
     state: {
-        background: { fill: "white" },
-        outline: { fill: "peachPuff" },
-        head: {},
-        other: {},
+        background: { fill: "Beige" },
+        outline: { fill: "BurlyWood" },
+        head: { fill: "BurlyWood" },
+        other: { fill: "DarkSalmon" },
         muscles: {
             Trapezius: {},
             "Latissimus Dorsi": {},
@@ -31,7 +31,7 @@ export default {
             "Anterior Deltoids": {}
         },
         colors: {
-            selected: { fill: "orange" },
+            selected: { fill: "red" },
             unselected: { fill: "black" }
         }
     },

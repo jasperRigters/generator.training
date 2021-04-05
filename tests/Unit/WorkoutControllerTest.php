@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\WorkoutController;
+use App\Http\Controllers\RandomWorkoutController;
 use App\Models\Muscle;
 use App\Models\Tool;
 use Tests\TestCase;
@@ -19,7 +19,7 @@ class WorkoutControllerTest extends TestCase
     public function getAvailableExercises()
     {
         $this->withoutExceptionHandling();
-        $test = new WorkoutController();
+        $test = new RandomWorkoutController();
 
         $allMuscles = Muscle::all();
         $muscles = [];

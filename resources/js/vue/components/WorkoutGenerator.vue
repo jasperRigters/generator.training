@@ -1,12 +1,20 @@
 <template>
-    <div><button @click="generateWorkout()"></button></div>
+    <div>
+        <button @click="generateWorkout()"></button>
+        {{ workoutExercises.map(exercise => exercise.name) }}
+    </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
     methods: {
         ...mapActions("workout", ["generateWorkout"])
+    },
+    computed: {
+        ...mapState({
+            workoutExercises: state => state.workout.exercises
+        })
     }
 };
 </script>

@@ -5,6 +5,7 @@ export default {
         selectedMuscles: [],
         selectedMuscleGroups: [],
         selectedTools: [],
+        selectedLength: 4,
         presets: [
             {
                 name: "Push",
@@ -47,6 +48,9 @@ export default {
         },
         getSelectedToolIds(state) {
             return state.selectedTools.map(tools => tools.id);
+        },
+        getSelectedLength(state) {
+            return state.selectedLength;
         }
     },
     actions: {},
@@ -62,6 +66,9 @@ export default {
         },
         setSelectedTools(state, tools) {
             state.selectedTools = tools;
+        },
+        setSelectedLength(state, length) {
+            state.selectedLength = length;
         }
     }
 };

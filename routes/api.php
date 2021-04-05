@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExerciseController;
+use App\Http\Controllers\GeneratedWorkoutController;
 use App\Http\Controllers\MuscleController;
 use App\Http\Controllers\MuscleGroupController;
 use App\Http\Controllers\ToolController;
-use App\Http\Controllers\WorkoutController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ use App\Http\Controllers\WorkoutController;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -35,5 +35,4 @@ Route::get('/tools/{id}', [ToolController::class, 'show']);
 Route::get('/musclegroups', [MuscleGroupController::class, 'index']);
 Route::get('/musclegroups/{id}', [MuscleGroupController::class, 'show']);
 
-
- Route::get('/workout', [WorkoutController::class, 'generate']);
+Route::get('/workout', [GeneratedWorkoutController::class, 'generate']);

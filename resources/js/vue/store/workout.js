@@ -3,7 +3,8 @@ import axios from "axios";
 export default {
     namespaced: true,
     state: {
-        generatedWorkout: []
+        exercises: [],
+        loadCounter: []
     },
 
     getters: {},
@@ -16,15 +17,20 @@ export default {
                         params: {
                             muscles:
                                 rootGetters["selections/getSelectedMuscleIds"],
-                            tools: rootGetters["selections/getSelectedToolIds"]
+                            tools: rootGetters["selections/getSelectedToolIds"],
+                            length: rootGetters["selections/getSelectedLength"]
                         }
                     })
                     .then(response => {
-                        console.log(response.data);
+                        commit("setExercises", response.data.exercises);
                     });
                 resolve();
             });
         }
     },
-    mutations: {}
+    mutations: {
+        setExercises(state, exercises) {
+            state.exercises = exercises;
+        }
+    }
 };

@@ -15,7 +15,7 @@ class GeneratedWorkout extends Model
         parent::__construct($attributes);
 
         $generatedWorkout = $this->generateWorkout($attributes);
-        $this->exercises = Exercise::find($generatedWorkout['exercises']);
+        $this->exercises = $generatedWorkout['exercises'];
         $this->loadCounter = $generatedWorkout['loadCounter'];
 
     }
@@ -27,13 +27,16 @@ class GeneratedWorkout extends Model
 
         $availableExercises = Exercise::find($this->getAvailableExercises($attributes['muscles'], $attributes['tools']));
         $exerciseMuscleLoads = $this->getExerciseMuscleLoads($availableExercises);
-
         for ($i = 1; $i <= $attributes['length']; $i++) {
             if ($i === 1) {
-                $nextExercise = array_rand($exerciseMuscleLoads);
+
+                $exerciseIds = array_values(array_keys($exerciseMuscleLoads));
+                $nextExercise = $exerciseIds[random_int(0, count($exerciseIds) - 1)];
+
             }
             if ($i !== 1) {
                 $nextExercise = $this->getNextExercise($exerciseMuscleLoads);
+
             }
 
             $loadCounter = $this->updateLoadCounter($loadCounter, $exerciseMuscleLoads[$nextExercise]);
@@ -134,7 +137,7 @@ class GeneratedWorkout extends Model
         $exerciseMuscleLoads = [];
 
         foreach ($exercises as $exercise) {
-            $arr = [];
+
             foreach ($exercise->muscles as $muscle) {
                 if (is_null($muscle->pivot->prime_mover)) {
                     $arr[$muscle->id] = 1;
@@ -149,6 +152,7 @@ class GeneratedWorkout extends Model
             $exerciseMuscleLoads[$exercise->id] = $arr;
 
         }
+
         return $exerciseMuscleLoads;
     }
 
@@ -167,10 +171,11 @@ class GeneratedWorkout extends Model
     public function getNextExercise($exerciseMuscleLoads)
     {
         $fatiguedMuscles = $this->getFatiguedMuscles($exerciseMuscleLoads);
-        $availableExercises = $this->getAvailableExercisesByFatiguesMuscles($exerciseMuscleLoads, $fatiguedMuscles);
-        $randomKey = array_rand($availableExercises);
+        $availableExercises = $this->getAvailableExercisesByFatiguedMuscles($exerciseMuscleLoads, $fatiguedMuscles);
 
-        return $availableExercises[$randomKey];
+        $exercises = array_values($availableExercises);
+
+        return $exercises[random_int(0, count($availableExercises) - 1)];
     }
 
     public function getFatiguedMuscles($exerciseMuscleLoads)
@@ -195,7 +200,7 @@ class GeneratedWorkout extends Model
         return array_unique($fatiguedMuscles);
     }
 
-    public function getAvailableExercisesByFatiguesMuscles($exerciseMuscleLoads, $fatiguedMuscles)
+    public function getAvailableExercisesByFatiguedMuscles($exerciseMuscleLoads, $fatiguedMuscles)
     {
         $availableExercises = [];
 
@@ -212,8 +217,9 @@ class GeneratedWorkout extends Model
             }
         }
         if (empty($availableExercises)) {
-            $random = array_rand($exerciseMuscleLoads);
-            array_push($availableExercises, $random);
+            $exercises = array_values(array_keys($exerciseMuscleLoads));
+            array_push($availableExercises, $exercises[random_int(0, count($exercises) - 1)]);
+
         }
         return array_unique($availableExercises);
     }

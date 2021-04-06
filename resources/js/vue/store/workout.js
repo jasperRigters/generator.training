@@ -22,15 +22,36 @@ export default {
                         }
                     })
                     .then(response => {
-                        commit("setExercises", response.data.exercises);
+                        const allExercises = rootGetters["data/getExercises"];
+
+                        commit(
+                            "setExercises",
+                            response.data.exercises.map(exercise =>
+                                allExercises.find(
+                                    dataExercise => dataExercise.id == exercise
+                                )
+                            )
+                        );
+                        commit(
+                            "setMuscleLoadCounter",
+                            response.data.loadCounter
+                        ),
+                            commit(
+                                "styles/setMuscleStyles",
+                                rootGetters["styles/getMuscleLoadStyles"],
+                                { root: true }
+                            );
                     });
                 resolve();
             });
         }
     },
     mutations: {
-        setExercises(state, exercises) {
-            state.exercises = exercises;
+        setExercises(state, payload) {
+            state.exercises = payload;
+        },
+        setMuscleLoadCounter(state, payload) {
+            state.loadCounter = payload;
         }
     }
 };

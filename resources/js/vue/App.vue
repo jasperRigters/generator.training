@@ -37,10 +37,10 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch("data/getExercises");
-        this.$store.dispatch("data/getMuscles");
-        this.$store.dispatch("data/getMuscleGroups");
-        this.$store.dispatch("data/getTools");
+        this.$store.dispatch("data/getExercisesData");
+        this.$store.dispatch("data/getMusclesData");
+        this.$store.dispatch("data/getMuscleGroupsData");
+        this.$store.dispatch("data/getToolsData");
     }
 };
 </script>

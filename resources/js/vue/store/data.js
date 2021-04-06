@@ -8,10 +8,17 @@ export default {
         tools: []
     },
 
-    getters: {},
+    getters: {
+        getExercises(state) {
+            return state.exercises;
+        },
+        getMuscles(state) {
+            return state.muscles;
+        }
+    },
 
     actions: {
-        getExercises({ commit }) {
+        getExercisesData({ commit }) {
             return new Promise((resolve, reject) => {
                 axios.get("api/exercises").then(response => {
                     commit("setExercises", response.data);
@@ -19,7 +26,7 @@ export default {
                 });
             });
         },
-        getMuscles({ dispatch, commit, getters, rootGetters }) {
+        getMusclesData({ dispatch, commit, getters, rootGetters }) {
             return new Promise((resolve, reject) => {
                 axios.get("api/muscles").then(response => {
                     commit("setMuscles", response.data);
@@ -35,7 +42,7 @@ export default {
                 });
             });
         },
-        getMuscleGroups({ commit }) {
+        getMuscleGroupsData({ commit }) {
             return new Promise((resolve, reject) => {
                 axios.get("api/musclegroups").then(response => {
                     commit("setMuscleGroups", response.data);
@@ -44,7 +51,7 @@ export default {
                 });
             });
         },
-        getTools({ commit }) {
+        getToolsData({ commit }) {
             return new Promise((resolve, reject) => {
                 axios.get("api/tools").then(response => {
                     commit("setTools", response.data);

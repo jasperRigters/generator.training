@@ -10,10 +10,15 @@ export default {
             {
                 name: "Push",
                 muscles: [
-                    "Glutes",
-                    "Forearms",
-                    "Anterior Deltoids",
-                    "Medial Deltoids"
+                    "Posterior Deltoids",
+                    "Medial Deltoids",
+                    "Pectoralis Major",
+                    "Quadriceps",
+                    "Medial Head",
+                    "Long Head",
+                    "Lateral Head",
+                    "Gastrocnemius",
+                    "Soleus"
                 ]
             },
             {

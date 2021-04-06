@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @click="generateWorkout()"></button>
+        <button @click="generateWorkout()">Generate!</button>
         {{ workoutExercises.map(exercise => exercise.name) }}
     </div>
 </template>
@@ -22,6 +22,6 @@ export default {
 <style scoped>
 button {
     height: 50px;
-    width: 50px;
+    width: 200px;
 }
 </style>

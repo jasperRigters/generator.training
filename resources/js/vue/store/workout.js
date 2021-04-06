@@ -34,6 +34,7 @@ export default {
                         );
                         commit(
                             "setMuscleLoadCounter",
+
                             response.data.loadCounter
                         ),
                             commit(

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <select-arrow />
         <label v-for="muscle in muscles" :key="muscle.id" class="item">
             <input
                 :id="muscle.id"
@@ -15,8 +14,6 @@
             selected muscles:
             {{ selectedMuscles.map(muscle => muscle.name) }}
         </div>
-
-        <select-arrow v-bind:mirrored="true" />
     </div>
 </template>
 

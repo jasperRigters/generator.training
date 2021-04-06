@@ -1,6 +1,5 @@
 <template>
     <div>
-        <select-arrow />
         <label v-for="tool in tools" :key="tool.id" class="item">
             <input
                 :id="tool.id"
@@ -15,8 +14,6 @@
             selected tools:
             {{ selectedTools.map(tool => tool.name) }}
         </div>
-
-        <select-arrow v-bind:mirrored="true" />
     </div>
 </template>
 

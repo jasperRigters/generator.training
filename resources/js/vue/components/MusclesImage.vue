@@ -1399,12 +1399,4 @@ export default {
 };
 </script>
 
-<style scoped>
-* {
-    fill: green;
-}
-
-.heavyIntensity {
-    fill: red;
-}
-</style>
+<style scoped></style>

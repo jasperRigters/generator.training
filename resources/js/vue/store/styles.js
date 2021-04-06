@@ -2,8 +2,8 @@ export default {
     namespaced: true,
     state: {
         background: { fill: "Beige" },
-        outline: { fill: "BurlyWood" },
-        head: { fill: "BurlyWood" },
+        outline: { fill: "black" },
+        head: { fill: "DarkSalmon" },
         other: { fill: "DarkSalmon" },
         muscles: {
             Trapezius: {},
@@ -32,7 +32,7 @@ export default {
         },
         colors: {
             selected: { fill: "red" },
-            unselected: { fill: "black" },
+            unselected: { opacity: 0.06, fill: "red" },
             1: { opacity: 0.083, fill: "red" },
             2: { opacity: 0.166, fill: "red" },
             3: { opacity: 0.25, fill: "red" },
@@ -50,24 +50,29 @@ export default {
 
     getters: {
         getMuscleLoadStyles(state, getters, rootState, rootGetters) {
-            const allMuscles = rootGetters["data/getMuscles"];
-            const muscleLoadStyles = Object.keys(
-                rootState.workout.loadCounter
-            ).map(muscle => {
-                const muscleName = allMuscles.find(
-                    allMuscle => allMuscle.id == muscle
-                );
+            const muscleLoadStyles = rootGetters["data/getMuscles"].map(
+                muscle => {
+                    if (
+                        Object.keys(rootState.workout.loadCounter)
+                            .map(elem => parseInt(elem, 10))
+                            .includes(muscle.id)
+                    ) {
+                        return {
+                            name: muscle.name,
 
-                return {
-                    name: muscleName.name,
+                            style:
+                                rootState.styles.colors[
+                                    rootState.workout.loadCounter[muscle.id]
+                                ]
+                        };
+                    }
+                    return {
+                        name: muscle.name,
 
-                    style:
-                        rootState.styles.colors[
-                            rootState.workout.loadCounter[muscle] * 4
-                        ]
-                };
-            });
-
+                        style: rootState.styles.colors["unselected"]
+                    };
+                }
+            );
             return muscleLoadStyles;
         },
         getSelectedMuscleStyles(state, getters, rootState) {

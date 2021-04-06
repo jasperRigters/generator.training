@@ -27,7 +27,9 @@ class GeneratedWorkout extends Model
 
         $availableExercises = Exercise::find($this->getAvailableExercises($attributes['muscles'], $attributes['tools']));
         $exerciseMuscleLoads = $this->getExerciseMuscleLoads($availableExercises);
+
         for ($i = 1; $i <= $attributes['length']; $i++) {
+
             if ($i === 1) {
 
                 $exerciseIds = array_values(array_keys($exerciseMuscleLoads));
@@ -40,6 +42,7 @@ class GeneratedWorkout extends Model
             }
 
             $loadCounter = $this->updateLoadCounter($loadCounter, $exerciseMuscleLoads[$nextExercise]);
+
             array_push($exercises, $nextExercise);
 
             if (isset($exerciseMuscleLoads['lastExercise'])) {
@@ -51,7 +54,7 @@ class GeneratedWorkout extends Model
         }
 
         foreach ($loadCounter as $key => $value) {
-            $loadCounter[$key] = $value / $attributes['length'];
+            $loadCounter[$key] = ($value / $attributes['length']) * 4;
         }
         return ['exercises' => $exercises, 'loadCounter' => $loadCounter];
     }
@@ -137,7 +140,7 @@ class GeneratedWorkout extends Model
         $exerciseMuscleLoads = [];
 
         foreach ($exercises as $exercise) {
-
+            $arr = [];
             foreach ($exercise->muscles as $muscle) {
                 if (is_null($muscle->pivot->prime_mover)) {
                     $arr[$muscle->id] = 1;
@@ -158,6 +161,7 @@ class GeneratedWorkout extends Model
 
     public function updateLoadCounter($loadCounter, $exercise)
     {
+
         foreach ($exercise as $muscle => $load) {
             if (!key_exists($muscle, $loadCounter)) {
                 $loadCounter[$muscle] = $load;
@@ -165,6 +169,7 @@ class GeneratedWorkout extends Model
                 $loadCounter[$muscle] += $load;
             }
         }
+
         return $loadCounter;
     }
 

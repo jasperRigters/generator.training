@@ -1,9 +1,11 @@
 <template>
     <div>
+        <selector type="Muscles" />
+        <selector type="Tools" />
         <workout-generator />
+        <muscles-image />
         <muscle-group-selector />
         <tool-selector />
-        <muscles-image />
     </div>
 </template>
 
@@ -11,6 +13,7 @@
 import { mapGetters, mapState } from "vuex";
 import MuscleGroupSelector from "./components/MuscleGroupSelector.vue";
 import MusclesImage from "./components/MusclesImage.vue";
+import Selector from "./components/Selector.vue";
 import ToolSelector from "./components/ToolSelector.vue";
 import WorkoutGenerator from "./components/WorkoutGenerator.vue";
 
@@ -19,7 +22,8 @@ export default {
         MuscleGroupSelector,
         ToolSelector,
         MusclesImage,
-        WorkoutGenerator
+        WorkoutGenerator,
+        Selector
     },
     data() {
         return {};

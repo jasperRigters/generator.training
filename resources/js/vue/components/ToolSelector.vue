@@ -6,7 +6,7 @@
                 type="checkbox"
                 :value="tool.name"
                 @change="change"
-                checked="true"
+                :checked="isChecked(tool.id)"
             />
             <span :for="tool.name">{{ tool.name }}</span>
         </label>
@@ -32,14 +32,20 @@ export default {
                 event.target.id
             );
 
-            this.$store.commit("selections/setSelectedTools", tools);
+            this.$store.commit("selections/setTools", tools);
+        },
+        isChecked(tool) {
+            const selectedTools = this.selectedTools.map(tool => tool.id);
+            if (selectedTools.find(selection => selection === tool)) {
+                return true;
+            }
         }
     },
     components: { SelectArrow },
     computed: {
         ...mapState({
             tools: state => state.data.tools,
-            selectedTools: state => state.selections.selectedTools
+            selectedTools: state => state.selections.tools
         })
     }
 };

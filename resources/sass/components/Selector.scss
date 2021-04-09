@@ -1,0 +1,26 @@
+$total-width: 24em;
+
+$selection-width: $total-width / 2;
+$triangle-width: $total-width / 4;
+
+$triangle-height: $triangle-width / 2;
+
+.triangle-left {
+    width: 0;
+    height: 0;
+    border-top: $triangle-height solid transparent;
+    border-right: $triangle-width solid $primary;
+    border-bottom: $triangle-height solid transparent;
+}
+
+.triangle-right {
+    width: 0;
+    height: 0;
+    border-top: $triangle-height solid transparent;
+    border-left: $triangle-width solid $primary;
+    border-bottom: $triangle-height solid transparent;
+}
+
+.selection {
+    width: $selection-width;
+}

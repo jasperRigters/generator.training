@@ -15,10 +15,9 @@ export default {
                 axios
                     .get("/api/workout", {
                         params: {
-                            muscles:
-                                rootGetters["selections/getSelectedMuscleIds"],
-                            tools: rootGetters["selections/getSelectedToolIds"],
-                            length: rootGetters["selections/getSelectedLength"]
+                            muscles: rootGetters["selections/getMuscleIds"],
+                            tools: rootGetters["selections/getToolIds"],
+                            length: rootGetters["selections/getLength"]
                         }
                     })
                     .then(response => {

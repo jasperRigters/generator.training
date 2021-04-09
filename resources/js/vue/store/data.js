@@ -5,7 +5,43 @@ export default {
         exercises: [],
         muscles: [],
         muscleGroups: [],
-        tools: []
+        tools: [],
+        presets: {
+            muscles: [
+                {
+                    id: 1,
+                    name: "Push",
+                    muscles: [
+                        "Posterior Deltoids",
+                        "Medial Deltoids",
+                        "Pectoralis Major",
+                        "Quadriceps",
+                        "Medial Head",
+                        "Long Head",
+                        "Lateral Head",
+                        "Gastrocnemius",
+                        "Soleus"
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "Pull",
+                    muscles: ["Anterior Deltoids", "Medial Deltoids"]
+                }
+            ],
+            tools: [
+                {
+                    id: 1,
+                    name: "Dumbell",
+                    tools: ["Dumbell"]
+                },
+                {
+                    id: 2,
+                    name: "Bodyweight",
+                    tools: ["Bodyweight"]
+                }
+            ]
+        }
     },
 
     getters: {
@@ -14,6 +50,12 @@ export default {
         },
         getMuscles(state) {
             return state.muscles;
+        },
+        getMusclePresetLength(state) {
+            return state.presets.muscles.length;
+        },
+        getToolPresetLength(state) {
+            return state.presets.tools.length;
         }
     },
 
@@ -31,7 +73,7 @@ export default {
                 axios.get("api/muscles").then(response => {
                     commit("setMuscles", response.data);
                     commit(
-                        "selections/setSelectedMuscles",
+                        "selections/setMuscles",
                         rootGetters["selections/getPresetMuscles"],
                         {
                             root: true
@@ -55,7 +97,7 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.get("api/tools").then(response => {
                     commit("setTools", response.data);
-                    commit("selections/setSelectedTools", response.data, {
+                    commit("selections/setTools", response.data, {
                         root: true
                     });
 

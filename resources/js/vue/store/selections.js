@@ -1,38 +1,21 @@
 export default {
     namespaced: true,
     state: {
-        selectedExercises: [],
-        selectedMuscles: [],
-        selectedMuscleGroups: [],
-        selectedTools: [],
-        selectedLength: 4,
-        presets: [
-            {
-                name: "Push",
-                muscles: [
-                    "Posterior Deltoids",
-                    "Medial Deltoids",
-                    "Pectoralis Major",
-                    "Quadriceps",
-                    "Medial Head",
-                    "Long Head",
-                    "Lateral Head",
-                    "Gastrocnemius",
-                    "Soleus"
-                ]
-            },
-            {
-                name: "Pull",
-                muscles: ["Anterior Deltoids", "Medial Deltoids"]
-            }
-        ],
-        selectedPreset: "Push"
+        exercises: [],
+        muscles: [],
+        muscleGroups: [],
+        tools: [],
+        length: 4,
+        presets: {
+            muscles: 1,
+            tools: 1
+        }
     },
 
     getters: {
         getPresetMuscles(state, getters, rootState, rootGetters) {
-            const preset = state.presets.find(
-                preset => preset.name === state.selectedPreset
+            const preset = rootState.data.presets.muscles.find(
+                presetMuscle => presetMuscle.id === state.presets.muscles
             );
 
             const presetMuscles = rootState.data.muscles.filter(muscle => {
@@ -48,32 +31,121 @@ export default {
             });
             return presetMuscles;
         },
-        getSelectedMuscleIds(state) {
-            return state.selectedMuscles.map(muscle => muscle.id);
+        getPresetTools(state, getters, rootState, rootGetters) {
+            const preset = rootState.data.presets.tools.find(
+                presetTool => presetTool.id === state.presets.tools
+            );
+
+            const presetTools = rootState.data.tools.filter(tool => {
+                const toolName = preset.tools.find(preset => {
+                    if (preset === tool.name) {
+                        return true;
+                    }
+                });
+
+                if (toolName === tool.name) {
+                    return true;
+                }
+            });
+
+            return presetTools;
         },
-        getSelectedToolIds(state) {
-            return state.selectedTools.map(tools => tools.id);
+        getPresetToolsName(state, getters, rootState, rootGetters) {
+            return rootState.data.presets.tools[getters.getToolPreset - 1].name;
         },
-        getSelectedLength(state) {
-            return state.selectedLength;
+        getPresetMusclesName(state, getters, rootState, rootGetters) {
+            return rootState.data.presets.muscles[getters.getMusclePreset - 1]
+                .name;
+        },
+        getMuscleIds(state) {
+            return state.muscles.map(muscle => muscle.id);
+        },
+        getToolIds(state) {
+            return state.tools.map(tools => tools.id);
+        },
+        getLength(state) {
+            return state.length;
+        },
+        getMusclePreset(state) {
+            return state.presets.muscles;
+        },
+        getToolPreset(state) {
+            return state.presets.tools;
         }
     },
-    actions: {},
+    actions: {
+        presetDec({ dispatch, commit, getters, rootGetters }, payload) {
+            if (payload["type"] == "Muscles") {
+                if (getters.getMusclePreset == 1) {
+                    commit(
+                        "setMusclePreset",
+                        rootGetters["data/getMusclePresetLength"]
+                    );
+                } else {
+                    commit("setMusclePreset", getters.getMusclePreset - 1);
+                }
+                commit("setMuscles", getters.getPresetMuscles);
+                dispatch("styles/changedSelection", null, { root: true });
+            }
+            if (payload["type"] == "Tools") {
+                if (getters.getToolPreset == 1) {
+                    commit(
+                        "setToolPreset",
+                        rootGetters["data/getToolPresetLength"]
+                    );
+                } else {
+                    commit("setToolPreset", getters.getToolPreset - 1);
+                }
+                commit("setTools", getters.getPresetTools);
+            }
+        },
+        presetInc({ dispatch, commit, getters, rootGetters }, payload) {
+            if (payload["type"] == "Muscles") {
+                if (
+                    getters.getMusclePreset ==
+                    rootGetters["data/getMusclePresetLength"]
+                ) {
+                    commit("setMusclePreset", 1);
+                } else {
+                    commit("setMusclePreset", getters.getMusclePreset + 1);
+                }
+                commit("setMuscles", getters.getPresetMuscles);
+                dispatch("styles/changedSelection", null, { root: true });
+            }
+            if (payload["type"] == "Tools") {
+                if (
+                    getters.getToolPreset ==
+                    rootGetters["data/getToolPresetLength"]
+                ) {
+                    commit("setToolPreset", 1);
+                } else {
+                    commit("setToolPreset", getters.getToolPreset + 1);
+                }
+                commit("setTools", getters.getPresetTools);
+            }
+        }
+    },
     mutations: {
-        setSelectedExercises(state, exercises) {
-            state.selectedExercises = exercises;
+        setExercises(state, exercises) {
+            state.exercises = exercises;
         },
-        setSelectedMuscles(state, muscles) {
-            state.selectedMuscles = muscles;
+        setMuscles(state, muscles) {
+            state.muscles = muscles;
         },
-        setSelectedMuscleGroups(state, muscleGroups) {
-            state.selectedMuscleGroups = muscleGroups;
+        setMuscleGroups(state, muscleGroups) {
+            state.muscleGroups = muscleGroups;
         },
-        setSelectedTools(state, tools) {
-            state.selectedTools = tools;
+        setTools(state, tools) {
+            state.tools = tools;
         },
-        setSelectedLength(state, length) {
-            state.selectedLength = length;
+        setLength(state, length) {
+            state.length = length;
+        },
+        setMusclePreset(state, payload) {
+            state.presets.muscles = payload;
+        },
+        setToolPreset(state, payload) {
+            state.presets.tools = payload;
         }
     }
 };

@@ -32,19 +32,19 @@ export default {
         },
         colors: {
             selected: { fill: "red" },
-            unselected: { opacity: 0.06, fill: "red" },
-            1: { opacity: 0.083, fill: "red" },
-            2: { opacity: 0.166, fill: "red" },
-            3: { opacity: 0.25, fill: "red" },
-            4: { opacity: 0.333, fill: "red" },
-            5: { opacity: 0.426, fill: "red" },
-            6: { opacity: 0.5, fill: "red" },
-            7: { opacity: 0.583, fill: "red" },
-            8: { opacity: 0.666, fill: "red" },
-            9: { opacity: 0.75, fill: "red" },
-            10: { opacity: 0.833, fill: "red" },
-            11: { opacity: 0.916, fill: "red" },
-            12: { opacity: 1, fill: "red" }
+            unselected: { opacity: 0.1, fill: "red" },
+            1: { opacity: 0.166, fill: "red" },
+            2: { opacity: 0.232, fill: "red" },
+            3: { opacity: 0.298, fill: "red" },
+            4: { opacity: 0.364, fill: "red" },
+            5: { opacity: 0.43, fill: "red" },
+            6: { opacity: 0.496, fill: "red" },
+            7: { opacity: 0.562, fill: "red" },
+            8: { opacity: 0.694, fill: "red" },
+            9: { opacity: 0.76, fill: "red" },
+            10: { opacity: 0.826, fill: "red" },
+            11: { opacity: 0.892, fill: "red" },
+            12: { opacity: 0.95, fill: "red" }
         }
     },
 
@@ -76,7 +76,7 @@ export default {
             return muscleLoadStyles;
         },
         getSelectedMuscleStyles(state, getters, rootState) {
-            const selectedMuscleNames = rootState.selections.selectedMuscles.map(
+            const selectedMuscleNames = rootState.selections.muscles.map(
                 muscle => muscle.name
             );
             const styles = rootState.data.muscles.map(muscle => {

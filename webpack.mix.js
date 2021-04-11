@@ -21,6 +21,21 @@ mix.js("resources/js/app.js", "public/js")
             additionalData: `@import "./resources/sass/abstracts/_variables.scss";`
         }
     })
+
     .options({
-        extractVueStyles: true
+        extractVueStyles: true,
+        processCssUrls: false
     });
+mix.webpackConfig({
+    module: {
+        rules: [
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: "file-loader",
+                options: {
+                    name: "[name].[ext]"
+                }
+            }
+        ]
+    }
+});

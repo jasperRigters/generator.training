@@ -7,4 +7,31 @@
  *
  *  1. Abstracts
  */
+.triangle-left {
+  width: 0;
+  height: 0;
+  border-top: 3em solid transparent;
+  border-right: 6em solid #1d86c1;
+  border-bottom: 3em solid transparent;
+}
+
+.triangle-right {
+  width: 0;
+  height: 0;
+  border-top: 3em solid transparent;
+  border-left: 6em solid #1d86c1;
+  border-bottom: 3em solid transparent;
+}
+
+.selection {
+  width: 12em;
+}
+
+.flex {
+  display: flex;
+}
+
+.selected {
+  fill: teal;
+}
 

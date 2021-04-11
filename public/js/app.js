@@ -1860,6 +1860,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -1951,7 +1952,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     change: function change(event) {
       var muscles = this.$parent.$options.methods.addOrRemoveById(this.selectedMuscles, this.muscles, event.target.id);
-      this.$store.commit("selections/setSelectedMuscles", muscles);
+      this.$store.commit("selections/setMuscles", muscles);
       this.$store.dispatch("styles/changedSelection");
     },
     isChecked: function isChecked(muscle) {
@@ -1971,13 +1972,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)({
     selectedPreset: function selectedPreset(state) {
-      return state.selections.selectedPreset;
+      return state.selections.preset;
     },
     muscles: function muscles(state) {
       return state.data.muscles;
     },
     selectedMuscles: function selectedMuscles(state) {
-      return state.selections.selectedMuscles;
+      return state.selections.muscles;
     }
   }))
 });
@@ -3492,13 +3493,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      mario: __webpack_require__(/*! ./mario.png */ "./resources/js/vue/components/mario.png")
+    };
+  },
+  props: {
+    type: String
+  },
+  methods: {
+    presetDec: function presetDec() {
+      this.$store.dispatch("selections/presetDec", {
+        type: this.$props.type
+      });
+    },
+    presetInc: function presetInc() {
+      this.$store.dispatch("selections/presetInc", {
+        type: this.$props.type
+      });
+    }
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["selections/getPresetMusclesName", "selections/getPresetToolsName"]))
+});
 
 /***/ }),
 
@@ -3549,7 +3585,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     change: function change(event) {
       var tools = this.$parent.$options.methods.addOrRemoveById(this.selectedTools, this.tools, event.target.id);
-      this.$store.commit("selections/setSelectedTools", tools);
+      this.$store.commit("selections/setTools", tools);
+    },
+    isChecked: function isChecked(tool) {
+      var selectedTools = this.selectedTools.map(function (tool) {
+        return tool.id;
+      });
+
+      if (selectedTools.find(function (selection) {
+        return selection === tool;
+      })) {
+        return true;
+      }
     }
   },
   components: {
@@ -3560,7 +3607,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return state.data.tools;
     },
     selectedTools: function selectedTools(state) {
-      return state.selections.selectedTools;
+      return state.selections.tools;
     }
   }))
 });
@@ -3585,6 +3632,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -3652,7 +3700,27 @@ __webpack_require__.r(__webpack_exports__);
     exercises: [],
     muscles: [],
     muscleGroups: [],
-    tools: []
+    tools: [],
+    presets: {
+      muscles: [{
+        id: 1,
+        name: "Push",
+        muscles: ["Posterior Deltoids", "Medial Deltoids", "Pectoralis Major", "Quadriceps", "Medial Head", "Long Head", "Lateral Head", "Gastrocnemius", "Soleus"]
+      }, {
+        id: 2,
+        name: "Pull",
+        muscles: ["Anterior Deltoids", "Trapezius", "Latissimus Dorsi", "Lower Back", "Hamstrings", "Biceps Brachii", "Brachialis"]
+      }],
+      tools: [{
+        id: 1,
+        name: "Dumbell",
+        tools: ["Dumbell"]
+      }, {
+        id: 2,
+        name: "Bodyweight",
+        tools: ["Bodyweight"]
+      }]
+    }
   },
   getters: {
     getExercises: function getExercises(state) {
@@ -3660,6 +3728,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     getMuscles: function getMuscles(state) {
       return state.muscles;
+    },
+    getMusclePresetLength: function getMusclePresetLength(state) {
+      return state.presets.muscles.length;
+    },
+    getToolPresetLength: function getToolPresetLength(state) {
+      return state.presets.tools.length;
     }
   },
   actions: {
@@ -3680,7 +3754,7 @@ __webpack_require__.r(__webpack_exports__);
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/muscles").then(function (response) {
           commit("setMuscles", response.data);
-          commit("selections/setSelectedMuscles", rootGetters["selections/getPresetMuscles"], {
+          commit("selections/setMuscles", rootGetters["selections/getPresetMuscles"], {
             root: true
           });
           dispatch("styles/changedSelection", null, {
@@ -3704,7 +3778,7 @@ __webpack_require__.r(__webpack_exports__);
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().get("api/tools").then(function (response) {
           commit("setTools", response.data);
-          commit("selections/setSelectedTools", response.data, {
+          commit("selections/setTools", response.data, {
             root: true
           });
           resolve();
@@ -3774,24 +3848,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   namespaced: true,
   state: {
-    selectedExercises: [],
-    selectedMuscles: [],
-    selectedMuscleGroups: [],
-    selectedTools: [],
-    selectedLength: 4,
-    presets: [{
-      name: "Push",
-      muscles: ["Posterior Deltoids", "Medial Deltoids", "Pectoralis Major", "Quadriceps", "Medial Head", "Long Head", "Lateral Head", "Gastrocnemius", "Soleus"]
-    }, {
-      name: "Pull",
-      muscles: ["Anterior Deltoids", "Medial Deltoids"]
-    }],
-    selectedPreset: "Push"
+    exercises: [],
+    muscles: [],
+    muscleGroups: [],
+    tools: [],
+    length: 4,
+    presets: {
+      muscles: 1,
+      tools: 1
+    }
   },
   getters: {
     getPresetMuscles: function getPresetMuscles(state, getters, rootState, rootGetters) {
-      var preset = state.presets.find(function (preset) {
-        return preset.name === state.selectedPreset;
+      var preset = rootState.data.presets.muscles.find(function (presetMuscle) {
+        return presetMuscle.id === state.presets.muscles;
       });
       var presetMuscles = rootState.data.muscles.filter(function (muscle) {
         var muscleName = preset.muscles.find(function (preset) {
@@ -3806,36 +3876,130 @@ __webpack_require__.r(__webpack_exports__);
       });
       return presetMuscles;
     },
-    getSelectedMuscleIds: function getSelectedMuscleIds(state) {
-      return state.selectedMuscles.map(function (muscle) {
+    getPresetTools: function getPresetTools(state, getters, rootState, rootGetters) {
+      var preset = rootState.data.presets.tools.find(function (presetTool) {
+        return presetTool.id === state.presets.tools;
+      });
+      var presetTools = rootState.data.tools.filter(function (tool) {
+        var toolName = preset.tools.find(function (preset) {
+          if (preset === tool.name) {
+            return true;
+          }
+        });
+
+        if (toolName === tool.name) {
+          return true;
+        }
+      });
+      return presetTools;
+    },
+    getPresetToolsName: function getPresetToolsName(state, getters, rootState, rootGetters) {
+      return rootState.data.presets.tools[getters.getToolPreset - 1].name;
+    },
+    getPresetMusclesName: function getPresetMusclesName(state, getters, rootState, rootGetters) {
+      return rootState.data.presets.muscles[getters.getMusclePreset - 1].name;
+    },
+    getMuscleIds: function getMuscleIds(state) {
+      return state.muscles.map(function (muscle) {
         return muscle.id;
       });
     },
-    getSelectedToolIds: function getSelectedToolIds(state) {
-      return state.selectedTools.map(function (tools) {
+    getToolIds: function getToolIds(state) {
+      return state.tools.map(function (tools) {
         return tools.id;
       });
     },
-    getSelectedLength: function getSelectedLength(state) {
-      return state.selectedLength;
+    getLength: function getLength(state) {
+      return state.length;
+    },
+    getMusclePreset: function getMusclePreset(state) {
+      return state.presets.muscles;
+    },
+    getToolPreset: function getToolPreset(state) {
+      return state.presets.tools;
     }
   },
-  actions: {},
+  actions: {
+    presetDec: function presetDec(_ref, payload) {
+      var dispatch = _ref.dispatch,
+          commit = _ref.commit,
+          getters = _ref.getters,
+          rootGetters = _ref.rootGetters;
+
+      if (payload["type"] == "Muscles") {
+        if (getters.getMusclePreset == 1) {
+          commit("setMusclePreset", rootGetters["data/getMusclePresetLength"]);
+        } else {
+          commit("setMusclePreset", getters.getMusclePreset - 1);
+        }
+
+        commit("setMuscles", getters.getPresetMuscles);
+        dispatch("styles/changedSelection", null, {
+          root: true
+        });
+      }
+
+      if (payload["type"] == "Tools") {
+        if (getters.getToolPreset == 1) {
+          commit("setToolPreset", rootGetters["data/getToolPresetLength"]);
+        } else {
+          commit("setToolPreset", getters.getToolPreset - 1);
+        }
+
+        commit("setTools", getters.getPresetTools);
+      }
+    },
+    presetInc: function presetInc(_ref2, payload) {
+      var dispatch = _ref2.dispatch,
+          commit = _ref2.commit,
+          getters = _ref2.getters,
+          rootGetters = _ref2.rootGetters;
+
+      if (payload["type"] == "Muscles") {
+        if (getters.getMusclePreset == rootGetters["data/getMusclePresetLength"]) {
+          commit("setMusclePreset", 1);
+        } else {
+          commit("setMusclePreset", getters.getMusclePreset + 1);
+        }
+
+        commit("setMuscles", getters.getPresetMuscles);
+        dispatch("styles/changedSelection", null, {
+          root: true
+        });
+      }
+
+      if (payload["type"] == "Tools") {
+        if (getters.getToolPreset == rootGetters["data/getToolPresetLength"]) {
+          commit("setToolPreset", 1);
+        } else {
+          commit("setToolPreset", getters.getToolPreset + 1);
+        }
+
+        commit("setTools", getters.getPresetTools);
+      }
+    }
+  },
   mutations: {
-    setSelectedExercises: function setSelectedExercises(state, exercises) {
-      state.selectedExercises = exercises;
+    setExercises: function setExercises(state, exercises) {
+      state.exercises = exercises;
     },
-    setSelectedMuscles: function setSelectedMuscles(state, muscles) {
-      state.selectedMuscles = muscles;
+    setMuscles: function setMuscles(state, muscles) {
+      state.muscles = muscles;
     },
-    setSelectedMuscleGroups: function setSelectedMuscleGroups(state, muscleGroups) {
-      state.selectedMuscleGroups = muscleGroups;
+    setMuscleGroups: function setMuscleGroups(state, muscleGroups) {
+      state.muscleGroups = muscleGroups;
     },
-    setSelectedTools: function setSelectedTools(state, tools) {
-      state.selectedTools = tools;
+    setTools: function setTools(state, tools) {
+      state.tools = tools;
     },
-    setSelectedLength: function setSelectedLength(state, length) {
-      state.selectedLength = length;
+    setLength: function setLength(state, length) {
+      state.length = length;
+    },
+    setMusclePreset: function setMusclePreset(state, payload) {
+      state.presets.muscles = payload;
+    },
+    setToolPreset: function setToolPreset(state, payload) {
+      state.presets.tools = payload;
     }
   }
 });
@@ -3971,7 +4135,7 @@ __webpack_require__.r(__webpack_exports__);
       return muscleLoadStyles;
     },
     getSelectedMuscleStyles: function getSelectedMuscleStyles(state, getters, rootState) {
-      var selectedMuscleNames = rootState.selections.selectedMuscles.map(function (muscle) {
+      var selectedMuscleNames = rootState.selections.muscles.map(function (muscle) {
         return muscle.name;
       });
       var styles = rootState.data.muscles.map(function (muscle) {
@@ -4040,9 +4204,9 @@ __webpack_require__.r(__webpack_exports__);
       return new Promise(function (resolve, reject) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/workout", {
           params: {
-            muscles: rootGetters["selections/getSelectedMuscleIds"],
-            tools: rootGetters["selections/getSelectedToolIds"],
-            length: rootGetters["selections/getSelectedLength"]
+            muscles: rootGetters["selections/getMuscleIds"],
+            tools: rootGetters["selections/getToolIds"],
+            length: rootGetters["selections/getLength"]
           }
         }).then(function (response) {
           var allExercises = rootGetters["data/getExercises"];
@@ -4112,7 +4276,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "div[data-v-9a8f280a] {\n  color: purple;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "div[data-v-9a8f280a] {\n  color: #1d86c1;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4136,7 +4300,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".object {\n  color: purple;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* ==========================================================================\n    Builds our style structure\n        https://sass-guidelin.es/#the-7-1-pattern\n   ========================================================================== */\n/**\n * Table of Contents:\n *\n *  1. Abstracts\n */\n.triangle-left {\n  width: 0;\n  height: 0;\n  border-top: 3em solid transparent;\n  border-right: 6em solid #1d86c1;\n  border-bottom: 3em solid transparent;\n}\n.triangle-right {\n  width: 0;\n  height: 0;\n  border-top: 3em solid transparent;\n  border-left: 6em solid #1d86c1;\n  border-bottom: 3em solid transparent;\n}\n.selection {\n  width: 12em;\n}\n.flex {\n  display: flex;\n}\n.selected {\n  fill: teal;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4216,6 +4380,36 @@ module.exports = function (cssWithMappingToString) {
 
   return list;
 };
+
+/***/ }),
+
+/***/ "./resources/images/presets/barbell.jpeg":
+/*!***********************************************!*\
+  !*** ./resources/images/presets/barbell.jpeg ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/barbell.jpeg?f758775994852ae3d1be5addf67ca926");
+
+/***/ }),
+
+/***/ "./resources/js/vue/components/mario.png":
+/*!***********************************************!*\
+  !*** ./resources/js/vue/components/mario.png ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/mario.png?d1e5d5a69e846809d2afc530f14cad2e");
 
 /***/ }),
 
@@ -5376,15 +5570,17 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("selector", { attrs: { type: "Muscles" } }),
+      _vm._v(" "),
+      _c("selector", { attrs: { type: "Tools" } }),
+      _vm._v(" "),
       _c("workout-generator"),
-      _vm._v(" "),
-      _c("muscle-group-selector"),
-      _vm._v(" "),
-      _c("tool-selector"),
       _vm._v(" "),
       _c("muscles-image"),
       _vm._v(" "),
-      _c("selector")
+      _c("muscle-group-selector"),
+      _vm._v(" "),
+      _c("tool-selector")
     ],
     1
   )
@@ -5483,8 +5679,8 @@ var render = function() {
           version: "1.1",
           id: "svg6809",
           "xml:space": "preserve",
-          width: "793.70667",
-          height: "793.70667",
+          width: "500",
+          height: "500",
           viewBox: "0 0 793.70667 793.70667",
           "sodipodi:docname": "469817321-vector.svg",
           "inkscape:version": "0.92.5 (2060ec1f9f, 2020-04-08)"
@@ -8179,7 +8375,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "object" }, [_vm._v("\n    bla\n")])
+  return _c("div", { staticClass: "flex" }, [
+    _c("div", {
+      staticClass: "triangle-left",
+      on: {
+        click: function($event) {
+          return _vm.presetDec()
+        }
+      }
+    }),
+    _vm._v(" "),
+    _c("div", { staticClass: "selection" }, [
+      _vm._v(
+        "\n        " +
+          _vm._s(this["selections/getPreset" + _vm.type + "Name"]) +
+          "\n        "
+      ),
+      _c("img", { attrs: { src: _vm.mario } })
+    ]),
+    _vm._v(" "),
+    _c("div", {
+      staticClass: "triangle-right",
+      on: {
+        click: function($event) {
+          return _vm.presetInc()
+        }
+      }
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -8210,8 +8433,8 @@ var render = function() {
       _vm._l(_vm.tools, function(tool) {
         return _c("label", { key: tool.id, staticClass: "item" }, [
           _c("input", {
-            attrs: { id: tool.id, type: "checkbox", checked: "true" },
-            domProps: { value: tool.name },
+            attrs: { id: tool.id, type: "checkbox" },
+            domProps: { value: tool.name, checked: _vm.isChecked(tool.id) },
             on: { change: _vm.change }
           }),
           _vm._v(" "),
@@ -8276,8 +8499,14 @@ var render = function() {
             return exercise.name
           })
         ) +
-        "\n"
-    )
+        "\n    "
+    ),
+    _c("img", {
+      attrs: {
+        src: __webpack_require__(/*! ../../../images/presets/barbell.jpeg */ "./resources/images/presets/barbell.jpeg"),
+        alt: "bla"
+      }
+    })
   ])
 }
 var staticRenderFns = []

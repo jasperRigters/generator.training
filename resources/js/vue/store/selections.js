@@ -47,7 +47,6 @@ export default {
                     return true;
                 }
             });
-
             return presetTools;
         },
         getPresetToolsName(state, getters, rootState, rootGetters) {

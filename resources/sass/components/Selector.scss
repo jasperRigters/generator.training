@@ -5,6 +5,10 @@ $triangle-width: $total-width / 4;
 
 $triangle-height: $triangle-width / 2;
 
+.selector {
+    margin-top: 1em;
+}
+
 .triangle-left {
     width: 0;
     height: 0;
@@ -22,5 +26,9 @@ $triangle-height: $triangle-width / 2;
 }
 
 .selection {
+    background-size: 100%;
+    margin: 0.3em 0.8em;
     width: $selection-width;
+    height: auto;
+    text-align: center;
 }

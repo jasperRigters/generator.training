@@ -30,13 +30,13 @@ class GeneratedWorkout extends Model
 
         for ($i = 1; $i <= $attributes['length']; $i++) {
 
-            if ($i === 1) {
+            if ($i == 1) {
 
                 $exerciseIds = array_values(array_keys($exerciseMuscleLoads));
                 $nextExercise = $exerciseIds[random_int(0, count($exerciseIds) - 1)];
 
             }
-            if ($i !== 1) {
+            if ($i != 1) {
                 $nextExercise = $this->getNextExercise($exerciseMuscleLoads);
 
             }
@@ -121,7 +121,7 @@ class GeneratedWorkout extends Model
     {
         foreach ($exerciseToolRequirements as $id => $exercise) {
             foreach ($exercise as $tool => $essential) {
-                if (in_array($tool, $tools) && $essential === 1) {
+                if (in_array($tool, $tools) && $essential == 1) {
                     unset($exerciseToolRequirements[$id][$tool]);
                 }
                 if (in_array($tool, $tools) && $essential == 0) {
@@ -145,10 +145,10 @@ class GeneratedWorkout extends Model
                 if (is_null($muscle->pivot->prime_mover)) {
                     $arr[$muscle->id] = 1;
                 }
-                if ($muscle->pivot->prime_mover === 0) {
+                if ($muscle->pivot->prime_mover == 0) {
                     $arr[$muscle->id] = 2;
                 }
-                if ($muscle->pivot->prime_mover === 1) {
+                if ($muscle->pivot->prime_mover == 1) {
                     $arr[$muscle->id] = 3;
                 }
             }
@@ -190,7 +190,7 @@ class GeneratedWorkout extends Model
         if (isset($exerciseMuscleLoads['secondToLastExercise'])) {
             foreach ($exerciseMuscleLoads['secondToLastExercise'] as $muscle => $load) {
                 foreach ($exerciseMuscleLoads['lastExercise'] as $lastMuscle => $lastLoad) {
-                    if (($muscle === $lastMuscle && $load + $lastLoad >= 5) || ($muscle === $lastMuscle && $load == 2 && $lastLoad = 2)) {
+                    if (($muscle == $lastMuscle && $load + $lastLoad >= 5) || ($muscle == $lastMuscle && $load == 2 && $lastLoad = 2)) {
                         array_push($fatiguedMuscles, $muscle);
                     }
                 }
@@ -198,7 +198,7 @@ class GeneratedWorkout extends Model
         }
 
         foreach ($exerciseMuscleLoads['lastExercise'] as $muscle => $load) {
-            if ($load === 3) {
+            if ($load == 3) {
                 array_push($fatiguedMuscles, $muscle);
             }
         }

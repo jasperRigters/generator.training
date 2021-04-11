@@ -2,6 +2,7 @@ import axios from "axios";
 export default {
     namespaced: true,
     state: {
+        loggedIn: false,
         exercises: [],
         muscles: [],
         muscleGroups: [],
@@ -21,30 +22,56 @@ export default {
                         "Lateral Head",
                         "Gastrocnemius",
                         "Soleus"
-                    ]
+                    ],
+                    src: "./images/presets/push.jpeg"
                 },
                 {
                     id: 2,
                     name: "Pull",
-                    muscles: ["Anterior Deltoids", "Medial Deltoids"]
+                    muscles: [
+                        "Anterior Deltoids",
+                        "Trapezius",
+                        "Latissimus Dorsi",
+                        "Lower Back",
+                        "Hamstrings",
+                        "Biceps Brachii",
+                        "Brachialis"
+                    ],
+                    src: "./images/presets/pull.jpeg"
                 }
             ],
             tools: [
                 {
                     id: 1,
                     name: "Dumbell",
-                    tools: ["Dumbell"]
+                    tools: ["Dumbell"],
+                    src: "./images/presets/dumbells.jpeg"
                 },
                 {
                     id: 2,
                     name: "Bodyweight",
-                    tools: ["Bodyweight"]
+                    tools: ["Bodyweight"],
+                    src: "./images/presets/bodyweight.jpeg"
                 }
             ]
         }
     },
 
     getters: {
+        getPresetImageUrls(state) {
+            const presetObject = {};
+
+            for (const presetCat in state.presets) {
+                presetObject[presetCat] = {};
+                for (const presetItem in state.presets[presetCat]) {
+                    presetObject[presetCat][
+                        state.presets[presetCat][presetItem].name
+                    ] = state.presets[presetCat][presetItem].src;
+                }
+            }
+
+            return presetObject;
+        },
         getExercises(state) {
             return state.exercises;
         },
@@ -60,6 +87,12 @@ export default {
     },
 
     actions: {
+        logIn({ dispatch, commit, getters, rootGetters }, payload) {
+            console.log(payload);
+        },
+        signIn({ dispatch, commit, getters, rootGetters }, payload) {
+            console.log(payload);
+        },
         getExercisesData({ commit }) {
             return new Promise((resolve, reject) => {
                 axios.get("api/exercises").then(response => {
@@ -118,6 +151,9 @@ export default {
         },
         setTools(state, tools) {
             state.tools = tools;
+        },
+        setLoggedIn(state) {
+            state.loggedIn = True;
         }
     }
 };

@@ -6,56 +6,45 @@ export default {
         muscleGroups: [],
         tools: [],
         length: 4,
-        presets: {
+        presets: {},
+        currentPresets: {
             muscles: 1,
             tools: 1
         }
     },
 
     getters: {
-        getPresetMuscles(state, getters, rootState, rootGetters) {
-            const preset = rootState.data.presets.muscles.find(
-                presetMuscle => presetMuscle.id === state.presets.muscles
-            );
+        getPresetImageUrls(state) {
+            const presetObject = {};
 
-            const presetMuscles = rootState.data.muscles.filter(muscle => {
-                const muscleName = preset.muscles.find(preset => {
-                    if (preset === muscle.name) {
-                        return true;
-                    }
-                });
-
-                if (muscleName === muscle.name) {
-                    return true;
+            for (const presetCat in state.presets) {
+                presetObject[presetCat] = {};
+                for (const presetItem in state.presets[presetCat]) {
+                    presetObject[presetCat][
+                        state.presets[presetCat][presetItem].name
+                    ] = state.presets[presetCat][presetItem].src;
                 }
-            });
-            return presetMuscles;
+            }
+
+            return presetObject;
+        },
+        getPresetMuscles(state, getters, rootState, rootGetters) {
+            const muscles = rootState.data.muscles.filter(muscle =>
+                state.presets.muscles[
+                    state.currentPresets.muscles - 1
+                ].muscles.includes(muscle.name)
+            );
+            return muscles;
         },
         getPresetTools(state, getters, rootState, rootGetters) {
-            const preset = rootState.data.presets.tools.find(
-                presetTool => presetTool.id === state.presets.tools
+            const tools = rootState.data.tools.filter(tools =>
+                state.presets.tools[
+                    state.currentPresets.tools - 1
+                ].tools.includes(tools.name)
             );
+            return tools;
+        },
 
-            const presetTools = rootState.data.tools.filter(tool => {
-                const toolName = preset.tools.find(preset => {
-                    if (preset === tool.name) {
-                        return true;
-                    }
-                });
-
-                if (toolName === tool.name) {
-                    return true;
-                }
-            });
-            return presetTools;
-        },
-        getPresetToolsName(state, getters, rootState, rootGetters) {
-            return rootState.data.presets.tools[getters.getToolPreset - 1].name;
-        },
-        getPresetMusclesName(state, getters, rootState, rootGetters) {
-            return rootState.data.presets.muscles[getters.getMusclePreset - 1]
-                .name;
-        },
         getMuscleIds(state) {
             return state.muscles.map(muscle => muscle.id);
         },
@@ -65,33 +54,36 @@ export default {
         getLength(state) {
             return state.length;
         },
-        getMusclePreset(state) {
-            return state.presets.muscles;
+        getCurrentMusclePreset(state) {
+            return state.currentPresets.muscles;
         },
         getToolPreset(state) {
-            return state.presets.tools;
+            return state.currentPresets.tools;
+        },
+        getMusclePresetLength(state) {
+            return state.presets.muscles.length;
+        },
+        getToolPresetLength(state) {
+            return state.presets.tools.length;
         }
     },
     actions: {
         presetDec({ dispatch, commit, getters, rootGetters }, payload) {
             if (payload["type"] == "Muscles") {
-                if (getters.getMusclePreset == 1) {
+                if (getters.getCurrentMusclePreset == 1) {
+                    commit("setMusclePreset", getters.getMusclePresetLength);
+                } else {
                     commit(
                         "setMusclePreset",
-                        rootGetters["data/getMusclePresetLength"]
+                        getters.getCurrentMusclePreset - 1
                     );
-                } else {
-                    commit("setMusclePreset", getters.getMusclePreset - 1);
                 }
                 commit("setMuscles", getters.getPresetMuscles);
                 dispatch("styles/changedSelection", null, { root: true });
             }
             if (payload["type"] == "Tools") {
                 if (getters.getToolPreset == 1) {
-                    commit(
-                        "setToolPreset",
-                        rootGetters["data/getToolPresetLength"]
-                    );
+                    commit("setToolPreset", getters.getToolPresetLength);
                 } else {
                     commit("setToolPreset", getters.getToolPreset - 1);
                 }
@@ -101,21 +93,21 @@ export default {
         presetInc({ dispatch, commit, getters, rootGetters }, payload) {
             if (payload["type"] == "Muscles") {
                 if (
-                    getters.getMusclePreset ==
-                    rootGetters["data/getMusclePresetLength"]
+                    getters.getCurrentMusclePreset ==
+                    getters.getMusclePresetLength
                 ) {
                     commit("setMusclePreset", 1);
                 } else {
-                    commit("setMusclePreset", getters.getMusclePreset + 1);
+                    commit(
+                        "setMusclePreset",
+                        getters.getCurrentMusclePreset + 1
+                    );
                 }
                 commit("setMuscles", getters.getPresetMuscles);
                 dispatch("styles/changedSelection", null, { root: true });
             }
             if (payload["type"] == "Tools") {
-                if (
-                    getters.getToolPreset ==
-                    rootGetters["data/getToolPresetLength"]
-                ) {
+                if (getters.getToolPreset == getters.getToolPresetLength) {
                     commit("setToolPreset", 1);
                 } else {
                     commit("setToolPreset", getters.getToolPreset + 1);
@@ -123,6 +115,21 @@ export default {
                 commit("setTools", getters.getPresetTools);
             }
         }
+        // savePreset({ state, getters, rootState, rootGetters }, payload) {
+        //     return new Promise((resolve, reject) => {
+        //         axios
+        //             .post("/api/presets", {
+        //                 params: {
+        //                     type: ,
+        //                     name: ,
+        //                     items:
+        //                 }
+        //             })
+        //             .then(response => {
+        //                 resolve();
+        //             });
+        //     });
+        // }
     },
     mutations: {
         setExercises(state, exercises) {
@@ -141,10 +148,13 @@ export default {
             state.length = length;
         },
         setMusclePreset(state, payload) {
-            state.presets.muscles = payload;
+            state.currentPresets.muscles = payload;
         },
         setToolPreset(state, payload) {
-            state.presets.tools = payload;
+            state.currentPresets.tools = payload;
+        },
+        setPresets(state, payload) {
+            state.presets = payload;
         }
     }
 };

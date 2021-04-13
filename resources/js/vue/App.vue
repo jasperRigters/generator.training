@@ -48,6 +48,7 @@ export default {
         this.$store.dispatch("data/getMusclesData");
         this.$store.dispatch("data/getMuscleGroupsData");
         this.$store.dispatch("data/getToolsData");
+        this.$store.dispatch("data/getPresetsData");
     }
 };
 </script>

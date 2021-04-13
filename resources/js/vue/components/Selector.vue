@@ -1,16 +1,8 @@
 <template>
     <div class="flex selector">
-        <div class="triangle-left" @click="presetDec()"></div>
+        <div class="triangle-left" @click="presetDec({ type: type })"></div>
 
-        <div
-            class="selection"
-            v-bind:style="{
-                'background-image':
-                    'url(' + images[type.toLowerCase()][presetName] + ')'
-            }"
-        >
-            {{ this["selections/getPreset" + type + "Name"] }}
-
+        <div class="selection" v-bind:style="{}">
             <!-- <video
                 :src="'./images/exerciseGIF/Deadlift.mp4'"
                 type="video/mp4"
@@ -18,45 +10,36 @@
                 loop
             /> -->
         </div>
-        <div class="triangle-right" @click="presetInc()"></div>
+        <div class="triangle-right" @click="presetInc({ type: type })"></div>
+        <div class="savePreset">
+            <input type="text" v-model="newPreset" />
+            <button @click="savePreset({ name: newPreset })">
+                save preset
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     data() {
-        return {};
+        return {
+            newPreset: ""
+        };
     },
     props: {
         type: String
     },
 
     methods: {
-        presetDec() {
-            this.$store.dispatch("selections/presetDec", {
-                type: this.$props.type
-            });
-        },
-        presetInc() {
-            this.$store.dispatch("selections/presetInc", {
-                type: this.$props.type
-            });
-        }
+        ...mapActions("selections", ["presetDec", "presetInc", "savePreset"])
     },
     computed: {
-        ...mapGetters([
-            "selections/getPresetToolsName",
-            "selections/getPresetMusclesName"
-        ]),
+        ...mapGetters([]),
         images() {
-            return this.$store.getters["data/getPresetImageUrls"];
-        },
-        presetName() {
-            return this.$store.getters[
-                "selections/getPreset" + this.type + "Name"
-            ];
+            return this.$store.getters["selections/getPresetImageUrls"];
         }
     }
 };

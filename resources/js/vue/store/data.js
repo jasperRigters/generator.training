@@ -6,7 +6,9 @@ export default {
         exercises: [],
         muscles: [],
         muscleGroups: [],
-        tools: []
+        tools: [],
+        token: "",
+        user: ""
     },
 
     getters: {
@@ -20,9 +22,51 @@ export default {
 
     actions: {
         logIn({ dispatch, commit, getters, rootGetters }, payload) {
-            console.log(payload);
+            axios
+                .post("/api/login", {
+                    email: payload.email,
+                    password: payload.password
+                })
+                .then(response => {
+                    commit("setUser", response.data.user.id);
+                    dispatch("getPresetsData");
+                    commit("setToken", response.data.token);
+                });
         },
-        signIn({ dispatch, commit, getters, rootGetters }) {},
+        logOut({ state, dispatch, commit, rootGetters }) {
+            axios
+                .post(
+                    "/api/logout",
+                    {},
+                    {
+                        headers: { Authorization: `Bearer ${state.token}` }
+                    }
+                )
+                .then(response => {
+                    commit("selections/setMusclePreset", 1, { root: true });
+                    commit("setUser", "");
+                    dispatch("getPresetsData");
+                });
+        },
+        signIn({ dispatch, commit, getters, rootGetters }, payload) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("/api/register", {
+                        name: payload.name,
+                        email: payload.email,
+                        password: payload.password,
+                        password_confirmation: payload.confirm
+                    })
+                    .then(response => {
+                        dispatch("logIn", {
+                            email: payload.email,
+                            password: payload.password
+                        });
+                        console.log(response);
+                        resolve();
+                    });
+            });
+        },
         getExercisesData({ commit }) {
             return new Promise((resolve, reject) => {
                 axios.get("api/exercises").then(response => {
@@ -60,30 +104,34 @@ export default {
                 });
             });
         },
-        getPresetsData({ dispatch, commit, getters, rootGetters }) {
+        getPresetsData({ state, dispatch, commit, getters, rootGetters }) {
             return new Promise((resolve, reject) => {
-                axios.get("api/presets").then(response => {
-                    commit("selections/setPresets", response.data, {
-                        root: true
+                axios
+                    .get("api/presets", { params: { user: state.user } })
+                    .then(response => {
+                        commit("selections/setPresets", response.data, {
+                            root: true
+                        });
+                        commit(
+                            "selections/setTools",
+                            rootGetters["selections/getPresetTools"],
+                            {
+                                root: true
+                            }
+                        );
+                        commit(
+                            "selections/setMuscles",
+                            rootGetters["selections/getPresetMuscles"],
+                            {
+                                root: true
+                            }
+                        );
+                        dispatch("styles/changedSelection", null, {
+                            root: true
+                        });
+                        console.log(response);
+                        resolve();
                     });
-                    commit(
-                        "selections/setTools",
-                        rootGetters["selections/getPresetTools"],
-                        {
-                            root: true
-                        }
-                    );
-                    commit(
-                        "selections/setMuscles",
-                        rootGetters["selections/getPresetMuscles"],
-                        {
-                            root: true
-                        }
-                    );
-                    dispatch("styles/changedSelection", null, { root: true });
-
-                    resolve();
-                });
             });
         }
     },
@@ -102,6 +150,12 @@ export default {
         },
         setLoggedIn(state) {
             state.loggedIn = True;
+        },
+        setToken(state, payload) {
+            state.token = payload;
+        },
+        setUser(state, payload) {
+            state.user = payload;
         }
     }
 };

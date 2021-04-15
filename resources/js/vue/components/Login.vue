@@ -1,7 +1,7 @@
 <template>
     <div>
         <p>
-            Username:<input type="text" v-model="username" /> Password:<input
+            E-mail:<input type="text" v-model="email" /> Password:<input
                 type="text"
                 v-model="password"
             />
@@ -9,13 +9,31 @@
         <p>
             <button
                 class="loginButton"
-                @click="logIn({ username: username, password: password })"
+                @click="logIn({ email: email, password: password })"
             >
                 Log In
             </button>
+            <button class="loginButton" @click="logOut()">
+                Log Out
+            </button>
         </p>
         <p>
-            <button class="signInButton" @click="signIn()">
+            E-mail:<input type="text" v-model="email" /> Password:<input
+                type="text"
+                v-model="password"
+            />
+            Confirm password:<input type="text" v-model="confirm" />
+            <button
+                class="signInButton"
+                @click="
+                    signIn({
+                        name: email,
+                        email: email,
+                        password: password,
+                        confirm: confirm
+                    })
+                "
+            >
                 Sign In
             </button>
         </p>
@@ -27,12 +45,13 @@ import { mapActions } from "vuex";
 export default {
     data() {
         return {
-            username: "",
-            password: ""
+            email: "",
+            password: "",
+            confirm: ""
         };
     },
     methods: {
-        ...mapActions("data", ["logIn", "signIn"])
+        ...mapActions("data", ["logIn", "signIn", "logOut"])
     }
 };
 </script>

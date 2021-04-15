@@ -18,4 +18,8 @@ class Muscle extends Model
     {
         return $this->hasOne(MuscleGroup::class);
     }
+    public function presets()
+    {
+        return $this->belongsToMany(Preset::class);
+    }
 }

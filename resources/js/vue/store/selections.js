@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export default {
     namespaced: true,
     state: {
@@ -10,7 +12,8 @@ export default {
         currentPresets: {
             muscles: 1,
             tools: 1
-        }
+        },
+        presetValidation: false
     },
 
     getters: {
@@ -31,20 +34,31 @@ export default {
         getPresetMuscles(state, getters, rootState, rootGetters) {
             const muscles = rootState.data.muscles.filter(muscle =>
                 state.presets.muscles[
-                    state.currentPresets.muscles - 1
+                    state.currentPresets.muscles
                 ].muscles.includes(muscle.name)
             );
             return muscles;
         },
         getPresetTools(state, getters, rootState, rootGetters) {
             const tools = rootState.data.tools.filter(tools =>
-                state.presets.tools[
-                    state.currentPresets.tools - 1
-                ].tools.includes(tools.name)
+                state.presets.tools[state.currentPresets.tools].tools.includes(
+                    tools.name
+                )
             );
             return tools;
         },
+        getPresetNames(state) {
+            const names = {
+                muscles: state.presets.muscles
+                    ? state.presets.muscles[state.currentPresets.muscles].name
+                    : " ",
+                tools: state.presets.tools
+                    ? state.presets.tools[state.currentPresets.tools].name
+                    : " "
+            };
 
+            return names;
+        },
         getMuscleIds(state) {
             return state.muscles.map(muscle => muscle.id);
         },
@@ -69,9 +83,12 @@ export default {
     },
     actions: {
         presetDec({ dispatch, commit, getters, rootGetters }, payload) {
-            if (payload["type"] == "Muscles") {
-                if (getters.getCurrentMusclePreset == 1) {
-                    commit("setMusclePreset", getters.getMusclePresetLength);
+            if (payload["type"] == "muscles") {
+                if (getters.getCurrentMusclePreset <= 1) {
+                    commit(
+                        "setMusclePreset",
+                        getters.getMusclePresetLength - 1
+                    );
                 } else {
                     commit(
                         "setMusclePreset",
@@ -81,9 +98,9 @@ export default {
                 commit("setMuscles", getters.getPresetMuscles);
                 dispatch("styles/changedSelection", null, { root: true });
             }
-            if (payload["type"] == "Tools") {
-                if (getters.getToolPreset == 1) {
-                    commit("setToolPreset", getters.getToolPresetLength);
+            if (payload["type"] == "tools") {
+                if (getters.getToolPreset <= 1) {
+                    commit("setToolPreset", getters.getToolPresetLength - 1);
                 } else {
                     commit("setToolPreset", getters.getToolPreset - 1);
                 }
@@ -91,10 +108,10 @@ export default {
             }
         },
         presetInc({ dispatch, commit, getters, rootGetters }, payload) {
-            if (payload["type"] == "Muscles") {
+            if (payload["type"] == "muscles") {
                 if (
                     getters.getCurrentMusclePreset ==
-                    getters.getMusclePresetLength
+                    getters.getMusclePresetLength - 1
                 ) {
                     commit("setMusclePreset", 1);
                 } else {
@@ -106,30 +123,40 @@ export default {
                 commit("setMuscles", getters.getPresetMuscles);
                 dispatch("styles/changedSelection", null, { root: true });
             }
-            if (payload["type"] == "Tools") {
-                if (getters.getToolPreset == getters.getToolPresetLength) {
+            if (payload["type"] == "tools") {
+                if (getters.getToolPreset == getters.getToolPresetLength - 1) {
                     commit("setToolPreset", 1);
                 } else {
                     commit("setToolPreset", getters.getToolPreset + 1);
                 }
                 commit("setTools", getters.getPresetTools);
             }
+        },
+        savePreset({ rootState, dispatch }, payload) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post(
+                        "/api/presets",
+                        {
+                            type: payload.type,
+                            name: payload.name,
+                            items: payload.items,
+                            user: payload.user
+                        },
+
+                        {
+                            headers: {
+                                Authorization: `Bearer ${rootState.data.token}`
+                            }
+                        }
+                    )
+                    .then(response => {
+                        console.log(response);
+                        dispatch("data/getPresetsData", null, { root: true });
+                        resolve();
+                    });
+            });
         }
-        // savePreset({ state, getters, rootState, rootGetters }, payload) {
-        //     return new Promise((resolve, reject) => {
-        //         axios
-        //             .post("/api/presets", {
-        //                 params: {
-        //                     type: ,
-        //                     name: ,
-        //                     items:
-        //                 }
-        //             })
-        //             .then(response => {
-        //                 resolve();
-        //             });
-        //     });
-        // }
     },
     mutations: {
         setExercises(state, exercises) {
@@ -154,7 +181,11 @@ export default {
             state.currentPresets.tools = payload;
         },
         setPresets(state, payload) {
-            state.presets = payload;
+            const addedCustom = {
+                muscles: [{ name: "Custom" }, ...payload.muscles],
+                tools: [{ name: "Custom" }, ...payload.tools]
+            };
+            state.presets = addedCustom;
         }
     }
 };

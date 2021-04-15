@@ -31,8 +31,8 @@ export default {
                 this.muscles,
                 event.target.id
             );
-
             this.$store.commit("selections/setMuscles", muscles);
+            this.$store.commit("selections/setMusclePreset", 0);
             this.$store.dispatch("styles/changedSelection");
         },
         isChecked(muscle) {
@@ -47,7 +47,6 @@ export default {
     components: { SelectArrow },
     computed: {
         ...mapState({
-            selectedPreset: state => state.selections.preset,
             muscles: state => state.data.muscles,
             selectedMuscles: state => state.selections.muscles
         })

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <selector type="Muscles" />
-        <selector type="Tools" />
+        <selector type="muscles" />
+        <selector type="tools" />
         <login />
         <workout-generator />
         <muscles-image />

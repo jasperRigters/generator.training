@@ -33,6 +33,7 @@ export default {
             );
 
             this.$store.commit("selections/setTools", tools);
+            this.$store.commit("selections/setToolPreset", 0);
         },
         isChecked(tool) {
             const selectedTools = this.selectedTools.map(tool => tool.id);

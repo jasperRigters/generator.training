@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/presets', [PresetController::class, 'store']);
     Route::post('/logout', [UserController::class, 'logout']);
+    Route::delete('/presets', [PresetController::class, 'delete']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

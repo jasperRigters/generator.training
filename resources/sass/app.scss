@@ -9,6 +9,7 @@
  *
  *  1. Abstracts
  */
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "abstracts/variables";
 @import "components/Selector";
 
@@ -22,4 +23,7 @@
 .signInButton {
     height: 3em;
     width: 5em;
+}
+.workout {
+    color: red;
 }

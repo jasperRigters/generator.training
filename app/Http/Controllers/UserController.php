@@ -36,11 +36,11 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $fields = $request->validate([
-            'email' => 'required|string',
+            'name' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $fields['email'])->first();
+        $user = User::where('name', $fields['name'])->first();
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([

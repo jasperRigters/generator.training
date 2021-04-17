@@ -4,7 +4,8 @@ export default {
     namespaced: true,
     state: {
         exercises: [],
-        loadCounter: []
+        loadCounter: [],
+        doingWorkout: false
     },
 
     getters: {},

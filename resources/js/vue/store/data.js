@@ -8,7 +8,8 @@ export default {
         muscleGroups: [],
         tools: [],
         token: "",
-        user: ""
+        user: "",
+        signingIn: false
     },
 
     getters: {
@@ -21,16 +22,22 @@ export default {
     },
 
     actions: {
-        logIn({ dispatch, commit, getters, rootGetters }, payload) {
+        startSigningIn({ commit }, payload) {
+            commit("setSigningIn", payload);
+        },
+        logIn({ dispatch, commit, getters, rootGetters, rootState }, payload) {
             axios
                 .post("/api/login", {
-                    email: payload.email,
-                    password: payload.password
+                    name: rootState.selections.username,
+                    password: rootState.selections.password
                 })
                 .then(response => {
                     commit("setUser", response.data.user.id);
                     dispatch("getPresetsData");
                     commit("setToken", response.data.token);
+                    commit("selections/setUsername", "", { root: true });
+                    commit("selections/setPassword", "", { root: true });
+                    commit("selections/setConfirm", "", { root: true });
                 });
         },
         logOut({ state, dispatch, commit, rootGetters }) {
@@ -48,21 +55,21 @@ export default {
                     dispatch("getPresetsData");
                 });
         },
-        signIn({ dispatch, commit, getters, rootGetters }, payload) {
+        signIn({ dispatch, commit, getters, rootGetters, rootState }) {
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/register", {
-                        name: payload.name,
-                        email: payload.email,
-                        password: payload.password,
-                        password_confirmation: payload.confirm
+                        name: rootState.selections.username,
+                        email: rootState.selections.username,
+                        password: rootState.selections.password,
+                        password_confirmation: rootState.selections.confirm
                     })
                     .then(response => {
-                        dispatch("logIn", {
-                            email: payload.email,
-                            password: payload.password
-                        });
-                        console.log(response);
+                        dispatch("logIn");
+                        commit("setSigningIn", false);
+                        commit("selections/setUsername", "", { root: true });
+                        commit("selections/setPassword", "", { root: true });
+                        commit("selections/setConfirm", "", { root: true });
                         resolve();
                     });
             });
@@ -129,7 +136,7 @@ export default {
                         dispatch("styles/changedSelection", null, {
                             root: true
                         });
-                        console.log(response);
+
                         resolve();
                     });
             });
@@ -148,14 +155,14 @@ export default {
         setTools(state, tools) {
             state.tools = tools;
         },
-        setLoggedIn(state) {
-            state.loggedIn = True;
-        },
         setToken(state, payload) {
             state.token = payload;
         },
         setUser(state, payload) {
             state.user = payload;
+        },
+        setSigningIn(state, payload) {
+            state.signingIn = payload;
         }
     }
 };

@@ -13,10 +13,21 @@ export default {
             muscles: 1,
             tools: 1
         },
-        presetValidation: false
+        username: "",
+        password: "",
+        confirm: "",
+        presetName: ""
     },
 
     getters: {
+        presetIsCustom: state => type => {
+            if (state.presets[type]) {
+                if (state.presets[type][state.currentPresets[type]].custom) {
+                    return true;
+                }
+            }
+            return false;
+        },
         getPresetImageUrls(state) {
             const presetObject = {};
 
@@ -59,6 +70,7 @@ export default {
 
             return names;
         },
+
         getMuscleIds(state) {
             return state.muscles.map(muscle => muscle.id);
         },
@@ -82,6 +94,9 @@ export default {
         }
     },
     actions: {
+        updatePresetName({ commit }, payload) {
+            commit("setPresetName", payload.target.value);
+        },
         presetDec({ dispatch, commit, getters, rootGetters }, payload) {
             if (payload["type"] == "muscles") {
                 if (getters.getCurrentMusclePreset <= 1) {
@@ -132,7 +147,7 @@ export default {
                 commit("setTools", getters.getPresetTools);
             }
         },
-        savePreset({ rootState, dispatch }, payload) {
+        savePreset({ rootState, dispatch, commit }, payload) {
             return new Promise((resolve, reject) => {
                 axios
                     .post(
@@ -151,7 +166,32 @@ export default {
                         }
                     )
                     .then(response => {
-                        console.log(response);
+                        dispatch("data/getPresetsData", null, { root: true });
+                        commit("setPresetName", "");
+                        resolve();
+                    });
+            });
+        },
+        deletePreset({ rootState, dispatch, commit }, payload) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .delete(
+                        "/api/presets",
+
+                        {
+                            headers: {
+                                Authorization: `Bearer ${rootState.data.token}`
+                            },
+                            data: {
+                                type: payload.type,
+                                name: payload.name,
+                                user: rootState.data.user
+                            }
+                        }
+                    )
+                    .then(response => {
+                        commit("setMusclePreset", 1);
+                        commit("setToolPreset", 1);
                         dispatch("data/getPresetsData", null, { root: true });
                         resolve();
                     });
@@ -186,6 +226,18 @@ export default {
                 tools: [{ name: "Custom" }, ...payload.tools]
             };
             state.presets = addedCustom;
+        },
+        setUsername(state, payload) {
+            state.username = payload;
+        },
+        setPassword(state, payload) {
+            state.password = payload;
+        },
+        setConfirm(state, payload) {
+            state.confirm = payload;
+        },
+        setPresetName(state, payload) {
+            state.presetName = payload;
         }
     }
 };

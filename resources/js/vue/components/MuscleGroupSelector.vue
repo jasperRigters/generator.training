@@ -1,15 +1,19 @@
 <template>
     <div>
-        <label v-for="muscle in muscles" :key="muscle.id" class="item">
-            <input
-                :id="muscle.id"
-                type="checkbox"
-                :value="muscle.name"
-                @change="change"
-                :checked="isChecked(muscle.id)"
-            />
-            <span :for="muscle.name">{{ muscle.name }}</span>
-        </label>
+        <ul>
+            <label v-for="muscle in muscles" :key="muscle.id" class="item">
+                <li>
+                    <input
+                        :id="muscle.id"
+                        type="checkbox"
+                        :value="muscle.name"
+                        @change="change"
+                        :checked="isChecked(muscle.id)"
+                    />
+                    {{ muscle.name }}
+                </li>
+            </label>
+        </ul>
         <div>
             selected muscles:
             {{ selectedMuscles.map(muscle => muscle.name) }}

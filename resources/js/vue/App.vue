@@ -1,10 +1,20 @@
 <template>
-    <div>
-        <selector type="muscles" />
-        <selector type="tools" />
-        <login />
-        <workout-generator />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <selector type="muscles" /> <selector type="tools" />
+            </div>
+
+            <div class="col-sm-4">
+                <login />
+            </div>
+        </div>
         <muscles-image />
+
+        <workout-generator />
+        <start-workout />
+        <workout />
+
         <muscle-group-selector />
         <tool-selector />
     </div>
@@ -16,8 +26,10 @@ import Login from "./components/Login.vue";
 import MuscleGroupSelector from "./components/MuscleGroupSelector.vue";
 import MusclesImage from "./components/MusclesImage.vue";
 import Selector from "./components/Selector.vue";
+import StartWorkout from "./components/StartWorkout.vue";
 import ToolSelector from "./components/ToolSelector.vue";
 import WorkoutGenerator from "./components/WorkoutGenerator.vue";
+import Workout from "./components/Workout.vue";
 
 export default {
     components: {
@@ -26,7 +38,9 @@ export default {
         MusclesImage,
         WorkoutGenerator,
         Selector,
-        Login
+        Login,
+        StartWorkout,
+        Workout
     },
     data() {
         return {};

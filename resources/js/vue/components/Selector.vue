@@ -1,30 +1,48 @@
 <template>
-    <div class="flex selector">
-        <div class="triangle-left" @click="presetDec({ type: type })"></div>
+    <div class="d-flex justify-content-between">
+        <div class="flex">
+            <div class="triangle-left" @click="presetDec({ type: type })"></div>
 
-        <div class="selection" v-bind:style="{}">
-            {{ this.getPresetNames[type] }}
-            <!-- <video
+            <div class="selection" v-bind:style="{}">
+                {{ this.getPresetNames[type] }}
+                <button
+                    v-if="presetIsCustom(type)"
+                    @click="
+                        deletePreset({
+                            type: type,
+                            name: getPresetNames[type]
+                        })
+                    "
+                >
+                    x
+                </button>
+                <!-- <video
                 :src="'./images/exerciseGIF/Deadlift.mp4'"
                 type="video/mp4"
                 autoplay
                 loop
             /> -->
-        </div>
+            </div>
 
-        <div class="triangle-right" @click="presetInc({ type: type })"></div>
-        <div class="savePreset">
-            <input type="text" v-model="newPreset" />
+            <div
+                class="triangle-right"
+                @click="presetInc({ type: type })"
+            ></div>
+        </div>
+        <div>
+            <input type="text" :value="presetName" @input="updatePresetName" />
             <button
+                class="btn btn-primary"
                 @click="
+                    bla();
                     savePreset({
                         user: user,
                         type: type,
-                        name: newPreset,
+                        name: presetName,
                         items: (type == 'muscles' ? muscles : tools).map(
                             item => item.id
                         )
-                    })
+                    });
                 "
             >
                 save preset
@@ -47,14 +65,21 @@ export default {
     },
 
     methods: {
-        ...mapActions("selections", ["presetDec", "presetInc", "savePreset"])
+        ...mapActions("selections", [
+            "presetDec",
+            "presetInc",
+            "savePreset",
+            "deletePreset",
+            "updatePresetName"
+        ])
     },
     computed: {
-        ...mapGetters("selections", ["getPresetNames"]),
+        ...mapGetters("selections", ["getPresetNames", "presetIsCustom"]),
         ...mapState({
             muscles: state => state.selections.muscles,
             tools: state => state.selections.tools,
-            user: state => state.data.user
+            user: state => state.data.user,
+            presetName: state => state.selections.presetName
         }),
 
         images() {

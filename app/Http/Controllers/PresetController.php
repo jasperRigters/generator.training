@@ -21,16 +21,26 @@ class PresetController extends Controller
             $preset->muscles()->attach($request->items);
 
         }
+        if ($request->type == 'tools') {
+            $preset->presetCategory()->associate(2);
+            $preset->user()->associate($request->user);
+            $preset->save();
+            $preset->tools()->attach($request->items);
+
+        }
         return ['message' => 'Preset saved'];
     }
 
     public function index(Request $request)
     {
 
-        $presets = ['muscles' => [], 'tools' => [], 'request' => $request->user];
+        $presets = ['muscles' => [], 'tools' => []];
         $allPresets = Preset::where('user_id', 0)->orWhere('user_id', $request->user)->get();
         foreach ($allPresets as $preset) {
             $arr = ['name' => $preset->name];
+            if ($preset->user_id !== 0) {
+                $arr['custom'] = true;
+            }
 
             if ($preset->preset_category_id == 1) {
                 $presetMuscles = $this->getPresetMuscles($preset);
@@ -49,7 +59,24 @@ class PresetController extends Controller
 
         return $presets;
     }
+    public function delete(Request $request)
+    {
+        $type = '';
+        if ($request->type === 'muscles') {
+            $type = 1;
+        }
+        if ($request->type === 'tools') {
+            $type = 2;
+        }
 
+        $preset = Preset::where(
+            'user_id', '=', $request->user()->id)
+            ->where('name', '=', $request->name)
+            ->where('preset_category_id', '=', $type)->first();
+
+        return $preset->delete();
+
+    }
     public function getPresetMuscles($preset)
     {
         $arr = [];

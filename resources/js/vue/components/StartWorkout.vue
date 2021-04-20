@@ -1,15 +1,25 @@
 <template>
-    <div>
-        <button class="btn btn-primary" @click="bla">Start Workout!</button>
+    <div class="container">
+        <button
+            v-if="workoutGenerated"
+            class="btn btn-primary"
+            @click="startWorkout"
+        >
+            Start Workout!
+        </button>
     </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
 export default {
     methods: {
-        bla() {
-            this.flash("Data loaded", "success");
-        }
+        ...mapActions("workout", ["startWorkout"])
+    },
+    computed: {
+        ...mapState({
+            workoutGenerated: state => state.workout.workoutGenerated
+        })
     }
 };
 </script>

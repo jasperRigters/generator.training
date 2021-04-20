@@ -65,4 +65,5 @@ class UserController extends Controller
 
         return ['message' => 'logged out'];
     }
+
 }

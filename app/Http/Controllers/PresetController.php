@@ -38,7 +38,7 @@ class PresetController extends Controller
         $allPresets = Preset::where('user_id', 0)->orWhere('user_id', $request->user)->get();
         foreach ($allPresets as $preset) {
             $arr = ['name' => $preset->name];
-            if ($preset->user_id !== 0) {
+            if ($preset->user_id != 0) {
                 $arr['custom'] = true;
             }
 

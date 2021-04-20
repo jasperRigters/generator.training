@@ -1,4 +1,5 @@
 import axios from "axios";
+import Vue from "vue";
 
 export default {
     namespaced: true,
@@ -22,7 +23,9 @@ export default {
     getters: {
         presetIsCustom: state => type => {
             if (state.presets[type]) {
-                if (state.presets[type][state.currentPresets[type]].custom) {
+                if (
+                    state.presets[type][state.currentPresets[type]].custom == 1
+                ) {
                     return true;
                 }
             }
@@ -168,7 +171,19 @@ export default {
                     .then(response => {
                         dispatch("data/getPresetsData", null, { root: true });
                         commit("setPresetName", "");
+                        Vue.prototype.$flashStorage.flash(
+                            "Preset saved!",
+                            "success",
+                            { timeout: 3500 }
+                        );
                         resolve();
+                    })
+                    .catch(error => {
+                        Vue.prototype.$flashStorage.flash(
+                            error.response.data.message,
+                            "error",
+                            { timeout: 3500 }
+                        );
                     });
             });
         },
@@ -193,7 +208,19 @@ export default {
                         commit("setMusclePreset", 1);
                         commit("setToolPreset", 1);
                         dispatch("data/getPresetsData", null, { root: true });
+                        Vue.prototype.$flashStorage.flash(
+                            "Preset deleted!",
+                            "success",
+                            { timeout: 3500 }
+                        );
                         resolve();
+                    })
+                    .catch(error => {
+                        Vue.prototype.$flashStorage.flash(
+                            error.response.data.message,
+                            "error",
+                            { timeout: 3500 }
+                        );
                     });
             });
         }

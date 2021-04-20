@@ -20,4 +20,10 @@ class Exercise extends Model
         return $this->belongsToMany(Tool::class)
             ->withPivot(['essential']);
     }
+    public function workouts()
+    {
+        return $this->belongsToMany(Workout::class)
+            ->withPivot(['sets']);
+
+    }
 }

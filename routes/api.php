@@ -7,6 +7,7 @@ use App\Http\Controllers\MuscleGroupController;
 use App\Http\Controllers\PresetController;
 use App\Http\Controllers\ToolController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkoutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/presets', [PresetController::class, 'store']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::delete('/presets', [PresetController::class, 'delete']);
+    Route::post('/workout', [WorkoutController::class, 'store']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

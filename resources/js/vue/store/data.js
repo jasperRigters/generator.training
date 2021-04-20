@@ -1,4 +1,6 @@
 import axios from "axios";
+import Vue from "vue";
+
 export default {
     namespaced: true,
     state: {
@@ -25,20 +27,36 @@ export default {
         startSigningIn({ commit }, payload) {
             commit("setSigningIn", payload);
         },
-        logIn({ dispatch, commit, getters, rootGetters, rootState }, payload) {
-            axios
-                .post("/api/login", {
-                    name: rootState.selections.username,
-                    password: rootState.selections.password
-                })
-                .then(response => {
-                    commit("setUser", response.data.user.id);
-                    dispatch("getPresetsData");
-                    commit("setToken", response.data.token);
-                    commit("selections/setUsername", "", { root: true });
-                    commit("selections/setPassword", "", { root: true });
-                    commit("selections/setConfirm", "", { root: true });
-                });
+        logIn({ dispatch, commit, getters, rootGetters, rootState }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .post("/api/login", {
+                        name: rootState.selections.username,
+                        password: rootState.selections.password
+                    })
+                    .then(response => {
+                        commit("setUser", response.data.user.id);
+                        dispatch("getPresetsData");
+                        commit("setToken", response.data.token);
+                        commit("selections/setUsername", "", { root: true });
+                        commit("selections/setPassword", "", { root: true });
+                        commit("selections/setConfirm", "", { root: true });
+
+                        Vue.prototype.$flashStorage.flash(
+                            `Welcome ${response.data.user.email}`,
+                            "success",
+                            { timeout: 3500 }
+                        );
+                        resolve();
+                    })
+                    .catch(error => {
+                        Vue.prototype.$flashStorage.flash(
+                            error.response.data.message,
+                            "error",
+                            { timeout: 3500 }
+                        );
+                    });
+            });
         },
         logOut({ state, dispatch, commit, rootGetters }) {
             axios
@@ -52,7 +70,17 @@ export default {
                 .then(response => {
                     commit("selections/setMusclePreset", 1, { root: true });
                     commit("setUser", "");
+                    Vue.prototype.$flashStorage.flash("Goodbye!", "info", {
+                        timeout: 3500
+                    });
                     dispatch("getPresetsData");
+                })
+                .catch(error => {
+                    Vue.prototype.$flashStorage.flash(
+                        error.response.data.message,
+                        "error",
+                        { timeout: 3500 }
+                    );
                 });
         },
         signIn({ dispatch, commit, getters, rootGetters, rootState }) {
@@ -71,6 +99,13 @@ export default {
                         commit("selections/setPassword", "", { root: true });
                         commit("selections/setConfirm", "", { root: true });
                         resolve();
+                    })
+                    .catch(error => {
+                        Vue.prototype.$flashStorage.flash(
+                            error.response.data.message,
+                            "error",
+                            { timeout: 3500 }
+                        );
                     });
             });
         },

@@ -15,7 +15,7 @@
             <label class="col-sm-3 display-1 col-form-label">Password:</label>
             <div class="col-sm-9">
                 <input
-                    type="text"
+                    type="password"
                     @input="updatePassword"
                     :value="password"
                     class="form-control"
@@ -26,7 +26,7 @@
             <label class="col-sm-3 col-form-label">Confirm password:</label>
             <div class="col-sm-9">
                 <input
-                    type="text"
+                    type="password"
                     @input="updateConfirm"
                     :value="confirm"
                     class="form-control"

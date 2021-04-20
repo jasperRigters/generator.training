@@ -9,11 +9,16 @@
                 <login />
             </div>
         </div>
-        <muscles-image />
+        <div class="row">
+            <div class="col-sm-8">
+                <muscles-image />
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
 
         <workout-generator />
         <start-workout />
-        <workout />
+        <workout-modal v-if="doingWorkout" />
 
         <muscle-group-selector />
         <tool-selector />
@@ -29,7 +34,7 @@ import Selector from "./components/Selector.vue";
 import StartWorkout from "./components/StartWorkout.vue";
 import ToolSelector from "./components/ToolSelector.vue";
 import WorkoutGenerator from "./components/WorkoutGenerator.vue";
-import Workout from "./components/Workout.vue";
+import WorkoutModal from "./components/WorkoutModal.vue";
 
 export default {
     components: {
@@ -40,7 +45,7 @@ export default {
         Selector,
         Login,
         StartWorkout,
-        Workout
+        WorkoutModal
     },
     data() {
         return {};
@@ -63,6 +68,14 @@ export default {
         this.$store.dispatch("data/getMuscleGroupsData");
         this.$store.dispatch("data/getToolsData");
         this.$store.dispatch("data/getPresetsData");
+    },
+    computed: {
+        ...mapState({
+            doingWorkout: state => state.workout.doingWorkout
+        })
     }
 };
 </script>
+<style lang="scss">
+@import "../../sass/app.scss";
+</style>

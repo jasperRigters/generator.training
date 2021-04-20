@@ -12,6 +12,7 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "abstracts/variables";
 @import "components/Selector";
+@import "components/WorkoutModal";
 
 .flex {
     display: flex;
@@ -26,4 +27,27 @@
 }
 .workout {
     color: red;
+}
+.topLeft {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.flash__message {
+    width: 20em;
+}
+.success {
+    background-color: green;
+    color: darkblue;
+    z-index: 1;
+}
+.error {
+    background-color: red;
+    color: black;
+    z-index: 1;
+}
+.info {
+    background-color: orange;
+    color: black;
+    z-index: 1;
 }

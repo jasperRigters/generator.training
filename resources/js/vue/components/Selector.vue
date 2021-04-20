@@ -34,7 +34,6 @@
             <button
                 class="btn btn-primary"
                 @click="
-                    bla();
                     savePreset({
                         user: user,
                         type: type,
@@ -42,7 +41,7 @@
                         items: (type == 'muscles' ? muscles : tools).map(
                             item => item.id
                         )
-                    });
+                    })
                 "
             >
                 save preset
@@ -89,6 +88,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "../../../sass/app.scss";
-</style>
+<style></style>

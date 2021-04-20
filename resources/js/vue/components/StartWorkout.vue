@@ -3,9 +3,16 @@
         <button
             v-if="workoutGenerated"
             class="btn btn-primary"
-            @click="startWorkout"
+            @click="selectWorkout"
         >
-            Start Workout!
+            Select this Workout!
+        </button>
+        <button
+            v-if="modal && closedModal"
+            class="btn btn-primary"
+            @click="openModal"
+        >
+            Back to Workout!
         </button>
     </div>
 </template>
@@ -14,11 +21,16 @@
 import { mapActions, mapState } from "vuex";
 export default {
     methods: {
-        ...mapActions("workout", ["startWorkout"])
+        ...mapActions("workout", ["selectWorkout"]),
+        openModal() {
+            this.$store.commit("workout/openModal");
+        }
     },
     computed: {
         ...mapState({
-            workoutGenerated: state => state.workout.workoutGenerated
+            workoutGenerated: state => state.workout.workoutGenerated,
+            modal: state => state.workout.modal,
+            closedModal: state => state.workout.closedModal
         })
     }
 };

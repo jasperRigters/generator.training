@@ -7,9 +7,9 @@ export default {
         exercises: [],
         loadCounter: [],
         sets: 4,
-        doingWorkout: false,
+        modal: "",
+        closedModal: true,
         workoutGenerated: false,
-        workoutFinished: false,
         currentExercise: 0,
         completedExercises: [],
         exerciseCounter: 0,
@@ -23,13 +23,24 @@ export default {
     },
 
     actions: {
-        startWorkout({ state, commit }) {
+        selectWorkout({ state, commit }) {
             if (state.workoutGenerated) {
-                commit("setDoingWorkout", true);
+                commit("setModal", "startingWorkout");
+                commit("openModal");
+                commit("setWorkoutGenerated", false);
+            } else {
+                Vue.prototype.$flashStorage.flash(
+                    "You must generate a workout first!",
+                    "error",
+                    { timeout: 3500 }
+                );
             }
         },
-        stopWorkout({ state, commit, dispatch }) {
-            commit("setDoingWorkout", false);
+        startWorkout({ state, commit }) {
+            commit("setModal", "doingWorkout");
+        },
+        closeModal({ state, commit, dispatch }) {
+            commit("closeModal");
         },
         saveWorkout({ state, getters, rootState }) {
             return new Promise((resolve, reject) => {
@@ -71,7 +82,7 @@ export default {
                 commit("setCurrentExercise", state.currentExercise + 1);
             }
             if (state.exerciseCounter == state.sets * state.exercises.length) {
-                commit("setWorkoutFinished", true);
+                commit("setModal", "finishedWorkout");
             }
         },
 
@@ -89,7 +100,7 @@ export default {
                 commit("setCurrentExercise", state.currentExercise + 1);
             }
             if (state.exerciseCounter == state.sets * state.exercises.length) {
-                commit("setWorkoutFinished", true);
+                commit("setModal", "finishedWorkout");
             }
             commit("increaseExerciseCounter");
         },
@@ -122,8 +133,8 @@ export default {
                                 rootGetters["styles/getMuscleLoadStyles"],
                                 { root: true }
                             );
-                        commit("setWorkoutGenerated");
-                        commit("setWorkoutFinished", false);
+                        commit("setWorkoutGenerated", true);
+                        //  commit("setFinishedWorkout", false);
                         commit("setExerciseCounter", 0);
                         commit("setCurrentExercise", 0);
                         Vue.prototype.$flashStorage.flash(
@@ -150,8 +161,8 @@ export default {
         setMuscleLoadCounter(state, payload) {
             state.loadCounter = payload;
         },
-        setWorkoutGenerated(state) {
-            state.workoutGenerated = true;
+        setWorkoutGenerated(state, payload) {
+            state.workoutGenerated = payload;
         },
         setDoingWorkout(state, payload) {
             state.doingWorkout = payload;
@@ -162,8 +173,8 @@ export default {
         addCompletedExercise(state, payload) {
             state.completedExercises = [...state.completedExercises, payload];
         },
-        setWorkoutFinished(state, payload) {
-            state.workoutFinished = payload;
+        setFinishedWorkout(state, payload) {
+            state.finishedWorkout = payload;
         },
         setSets(state, payload) {
             state.sets = payload;
@@ -178,7 +189,6 @@ export default {
             state.gifUrl = payload;
         },
         addCompletedExerciseSet(state) {
-            console.log(state.completedExercises);
             state.completedExercises[
                 state.completedExercises.indexOf(
                     state.completedExercises.find(
@@ -188,7 +198,15 @@ export default {
                     )
                 )
             ].sets += 1;
-            console.log(state.completedExercises);
+        },
+        setModal(state, payload) {
+            state.modal = payload;
+        },
+        closeModal(state, payload) {
+            state.closedModal = true;
+        },
+        openModal(state, payload) {
+            state.closedModal = false;
         }
     }
 };

@@ -18,7 +18,7 @@
 
         <workout-generator />
         <start-workout />
-        <workout-modal v-if="doingWorkout" />
+        <workout-modal v-if="modal && !closedModal" />
 
         <muscle-group-selector />
         <tool-selector />
@@ -27,6 +27,8 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import DoingWorkoutModal from "./components/modals/DoingWorkoutModal.vue";
+import FinishedWorkoutModal from "./components/modals/FinishedWorkoutModal.vue";
 import Login from "./components/Login.vue";
 import MuscleGroupSelector from "./components/MuscleGroupSelector.vue";
 import MusclesImage from "./components/MusclesImage.vue";
@@ -34,7 +36,7 @@ import Selector from "./components/Selector.vue";
 import StartWorkout from "./components/StartWorkout.vue";
 import ToolSelector from "./components/ToolSelector.vue";
 import WorkoutGenerator from "./components/WorkoutGenerator.vue";
-import WorkoutModal from "./components/WorkoutModal.vue";
+import WorkoutModal from "./components/modals/WorkoutModal.vue";
 
 export default {
     components: {
@@ -45,7 +47,9 @@ export default {
         Selector,
         Login,
         StartWorkout,
-        WorkoutModal
+        WorkoutModal,
+        DoingWorkoutModal,
+        FinishedWorkoutModal
     },
     data() {
         return {};
@@ -71,7 +75,8 @@ export default {
     },
     computed: {
         ...mapState({
-            doingWorkout: state => state.workout.doingWorkout
+            modal: state => state.workout.modal,
+            closedModal: state => state.workout.closedModal
         })
     }
 };

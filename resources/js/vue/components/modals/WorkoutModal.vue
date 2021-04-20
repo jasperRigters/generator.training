@@ -3,56 +3,37 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="workoutModal col-8">
-                <div class="row">
+                <div class="flex-row-reverse">
                     <div class="workoutModalHeader">
-                        <button
-                            class="btn btn-primary"
-                            @click="completeExercise()"
-                        >
-                            Complete Exercise
-                        </button>
-                        <button
-                            class="btn btn-primary"
-                            @click="previousExercise()"
-                        >
-                            Previous Exercise
-                        </button>
-                        <button class="btn btn-primary" @click="skipExercise()">
-                            Skip Exercise
-                        </button>
-                        reps
-
-                        <input
-                            type="text"
-                            @input="updateSets"
-                            :placeholder="[[sets]]"
-                            class="form-control"
-                        />
-
-                        <button class="btn btn-primary" @click="saveWorkout()">
-                            Save Workout
-                        </button>
-                        <button class="btn btn-primary" @click="stopWorkout()">
-                            Stop Workout
+                        <button class="btn btn-primary" @click="closeModal()">
+                            x
                         </button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="workoutModalBody">
-                        <div>{{ exercises[currentExercise].instruction }}</div>
-
-                        <video
-                            :src="gifUrl"
-                            type="video/mp4"
-                            autoplay
-                            loop
-                        ></video>
+                        <div
+                            class="finishedWorkout"
+                            v-if="modal == 'finishedWorkout'"
+                        >
+                            <finished-workout-modal />
+                        </div>
+                        <div
+                            class="startingWorkout"
+                            v-if="modal == 'startingWorkout'"
+                        >
+                            <starting-workout-modal />
+                        </div>
+                        <div
+                            class="doingWorkout"
+                            v-if="modal == 'doingWorkout'"
+                        >
+                            <doing-workout-modal />
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="workoutModalFooter">
-                        <div v-if="workoutFinished">Workout Finished!</div>
-                    </div>
+                    <div class="workoutModalFooter"></div>
                 </div>
             </div>
 
@@ -63,7 +44,15 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import DoingWorkoutModal from "./DoingWorkoutModal.vue";
+import FinishedWorkoutModal from "./FinishedWorkoutModal.vue";
+import StartingWorkoutModal from "./StartingWorkoutModal.vue";
 export default {
+    components: {
+        FinishedWorkoutModal,
+        DoingWorkoutModal,
+        StartingWorkoutModal
+    },
     data() {
         return {
             // video: `../../${exercises[currentExercise].name.replace(/ /g, "")}`
@@ -71,7 +60,7 @@ export default {
     },
     methods: {
         ...mapActions("workout", [
-            "stopWorkout",
+            "closeModal",
             "completeExercise",
             "previousExercise",
             "skipExercise",
@@ -85,10 +74,12 @@ export default {
         ...mapState({
             currentExercise: state => state.workout.currentExercise,
             sets: state => state.workout.sets,
-            workoutFinished: state => state.workout.workoutFinished,
+            finishedWorkout: state => state.workout.finishedWorkout,
             exercises: state => state.workout.exercises,
             currentExercise: state => state.workout.currentExercise,
-            gifUrl: state => state.workout.gifUrl
+            gifUrl: state => state.workout.gifUrl,
+            doingWorkout: state => state.workout.doingWorkout,
+            modal: state => state.workout.modal
         }),
         gifUrl() {
             var http = new XMLHttpRequest();

@@ -1,0 +1,18 @@
+.flash__message {
+    width: 20em;
+}
+.success {
+    background-color: green;
+    color: darkblue;
+    z-index: 1;
+}
+.error {
+    background-color: red;
+    color: black;
+    z-index: 1;
+}
+.info {
+    background-color: orange;
+    color: black;
+    z-index: 1;
+}

@@ -1,16 +1,21 @@
 <template>
-    <div>
-        <div>
+    <div class="container">
+        <div class="instruction">
             {{ exercises[currentExercise].instruction }}
         </div>
+        <div class="image">
+            <video :src="gifUrl" type="video/mp4" autoplay loop></video>
+        </div>
 
-        <video :src="gifUrl" type="video/mp4" autoplay loop></video>
-        <button class="btn btn-primary" @click="completeExercise()">
-            Complete Exercise
-        </button>
-        <button class="btn btn-primary" @click="skipExercise()">
-            Skip Exercise
-        </button>
+        <div class="buttons">
+            <button class="btn btn-primary" @click="completeExercise()">
+                Complete Exercise
+            </button>
+            <button class="btn btn-primary" @click="skipExercise()">
+                Skip Exercise
+            </button>
+        </div>
+
         <!-- <button class="btn btn-primary" @click="previousExercise()">
             Previous Exercise
         </button> -->
@@ -61,4 +66,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+.image {
+    margin-top: 2em;
+    padding-bottom: 2em;
+}
+.buttons {
+    position: absolute;
+    bottom: 1em;
+}
+.instruction {
+    width: 80%;
+}
+</style>

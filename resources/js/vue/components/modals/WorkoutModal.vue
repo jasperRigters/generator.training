@@ -1,15 +1,22 @@
 <template>
     <div class="workoutModalBackGround">
         <div class="row">
-            <div class="col-2"></div>
-            <div class="workoutModal col-8">
-                <div class="flex-row-reverse">
-                    <div class="workoutModalHeader">
-                        <button class="btn btn-primary" @click="closeModal()">
-                            x
-                        </button>
+            <div class="col-1"></div>
+            <div class="workoutModal col-10">
+                <div class="workoutModalHeader">
+                    <div class="row">
+                        <div class="col-11"></div>
+                        <div class="col-1 float-end">
+                            <button
+                                class="btn btn-primary"
+                                @click="closeModal()"
+                            >
+                                x
+                            </button>
+                        </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="workoutModalBody">
                         <div
@@ -37,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="col-2"></div>
+            <div class="col-1"></div>
         </div>
     </div>
 </template>
@@ -74,11 +81,9 @@ export default {
         ...mapState({
             currentExercise: state => state.workout.currentExercise,
             sets: state => state.workout.sets,
-            finishedWorkout: state => state.workout.finishedWorkout,
             exercises: state => state.workout.exercises,
             currentExercise: state => state.workout.currentExercise,
             gifUrl: state => state.workout.gifUrl,
-            doingWorkout: state => state.workout.doingWorkout,
             modal: state => state.workout.modal
         }),
         gifUrl() {
@@ -104,4 +109,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss"></style>

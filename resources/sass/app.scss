@@ -11,7 +11,8 @@
  */
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "abstracts/variables";
-@import "components/Selector";
+@import "resources/flashMessages";
+@import "components/PresetSelector";
 @import "components/WorkoutModal";
 
 .flex {
@@ -33,21 +34,12 @@
     top: 0px;
     left: 0px;
 }
-.flash__message {
-    width: 20em;
+.custom-select {
+    margin-left: 0.5em;
 }
-.success {
-    background-color: green;
-    color: darkblue;
-    z-index: 1;
+.container {
+    margin: 1em;
 }
-.error {
-    background-color: red;
-    color: black;
-    z-index: 1;
-}
-.info {
-    background-color: orange;
-    color: black;
-    z-index: 1;
+.form-control {
+    width: 12em;
 }

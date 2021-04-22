@@ -29,7 +29,7 @@
                 @click="presetInc({ type: type })"
             ></div>
         </div>
-        <div>
+        <div v-if="this.getPresetNames[type] == 'Custom'">
             <input type="text" :value="presetName" @input="updatePresetName" />
             <button
                 class="btn btn-primary"

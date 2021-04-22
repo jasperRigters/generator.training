@@ -42,7 +42,7 @@ export default {
         closeModal({ state, commit, dispatch }) {
             commit("closeModal");
         },
-        saveWorkout({ state, getters, rootState }) {
+        saveWorkout({ state, getters, rootState, commit }) {
             return new Promise((resolve, reject) => {
                 axios
                     .post(
@@ -58,6 +58,13 @@ export default {
                         }
                     )
                     .then(response => {
+                        Vue.prototype.$flashStorage.flash(
+                            response.data.message,
+                            "success",
+                            { timeout: 3500 }
+                        );
+                        commit("setModal", "");
+
                         resolve();
                     })
                     .catch(error => {});

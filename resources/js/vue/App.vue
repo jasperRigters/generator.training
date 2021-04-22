@@ -2,11 +2,52 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-8">
-                <selector type="muscles" /> <selector type="tools" />
+                <preset-selector type="muscles" />
+                <div class="container">
+                    <nav class=" navbar-expand-lg">
+                        <button
+                            class="navbar-toggler btn btn-primary"
+                            data-toggle="collapse"
+                            data-target="#muscles"
+                        >
+                            Edit Muscles
+                        </button>
+                        <div class="collapse navbar-collapse" id="muscles">
+                            <item-selector type="muscles" />
+                        </div>
+                    </nav>
+                </div>
+
+                <preset-selector type="tools" />
+                <div class="container">
+                    <nav class=" navbar-expand-lg">
+                        <button
+                            class="navbar-toggler btn btn-primary"
+                            data-toggle="collapse"
+                            data-target="#tools"
+                        >
+                            Edit Tools
+                        </button>
+                        <div class="collapse navbar-collapse" id="tools">
+                            <item-selector type="tools" />
+                        </div>
+                    </nav>
+                </div>
             </div>
 
-            <div class="col-sm-4">
-                <login />
+            <div class="col-md-4">
+                <nav class=" navbar-expand-lg">
+                    <button
+                        class="navbar-toggler btn btn-primary"
+                        data-toggle="collapse"
+                        data-target="#navbarCollapse"
+                    >
+                        Login
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <login />
+                    </div>
+                </nav>
             </div>
         </div>
         <div class="row">
@@ -17,11 +58,8 @@
         </div>
 
         <workout-generator />
-        <start-workout />
+        <start-workout class="exists" />
         <workout-modal v-if="modal && !closedModal" />
-
-        <muscle-group-selector />
-        <tool-selector />
     </div>
 </template>
 
@@ -30,26 +68,26 @@ import { mapGetters, mapState } from "vuex";
 import DoingWorkoutModal from "./components/modals/DoingWorkoutModal.vue";
 import FinishedWorkoutModal from "./components/modals/FinishedWorkoutModal.vue";
 import Login from "./components/Login.vue";
-import MuscleGroupSelector from "./components/MuscleGroupSelector.vue";
+
 import MusclesImage from "./components/MusclesImage.vue";
-import Selector from "./components/Selector.vue";
+import PresetSelector from "./components/PresetSelector.vue";
 import StartWorkout from "./components/StartWorkout.vue";
-import ToolSelector from "./components/ToolSelector.vue";
+
 import WorkoutGenerator from "./components/WorkoutGenerator.vue";
 import WorkoutModal from "./components/modals/WorkoutModal.vue";
+import ItemSelector from "./components/ItemSelector.vue";
 
 export default {
     components: {
-        MuscleGroupSelector,
-        ToolSelector,
         MusclesImage,
         WorkoutGenerator,
-        Selector,
+        PresetSelector,
         Login,
         StartWorkout,
         WorkoutModal,
         DoingWorkoutModal,
-        FinishedWorkoutModal
+        FinishedWorkoutModal,
+        ItemSelector
     },
     data() {
         return {};
@@ -83,4 +121,10 @@ export default {
 </script>
 <style lang="scss">
 @import "../../sass/app.scss";
+.navbar-toggler {
+    background-color: blue;
+}
+.exists {
+    min-height: 3em;
+}
 </style>

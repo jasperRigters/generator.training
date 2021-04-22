@@ -24,4 +24,6 @@
 </div>
 </body>
 <script src="<?php echo e(mix('js/app.js')); ?>"></script>
-</html><?php /**PATH /home/jasper/code/generator.training/resources/views/welcome.blade.php ENDPATH**/ ?>
+
+</html>
+<?php /**PATH /home/jasper/code/generator.training/resources/views/welcome.blade.php ENDPATH**/ ?>
